@@ -1,6 +1,11 @@
 package diff;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import javax.swing.*;
 
@@ -8,14 +13,19 @@ public class View extends JFrame{
 
     private JToolBar toptoolbar = new JToolBar();
     private JSplitPane sp;
-    
+    //private FileModel
     private JButton compareBt = new JButton("Compare");
     private JButton copy2rightBt = new JButton("C2R");
     private JButton copy2left = new JButton("C2L");  
     
+    private JFileChooser filechooser = new JFileChooser();
+    
     private TextAreaWithToolbarOnJPanel leftPanel = new TextAreaWithToolbarOnJPanel();
     private TextAreaWithToolbarOnJPanel rightPanel = new TextAreaWithToolbarOnJPanel();
-        
+
+    private ActionListener actionListener;
+   
+    
     public View(){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
@@ -36,7 +46,32 @@ public class View extends JFrame{
         
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);
-               
+	    
+	    actionListener = new ActionListener(){
+            public void actionPerformed(ActionEvent e) {                  
+                if(filechooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
+                	return;
+          	  	File f = filechooser.getSelectedFile();
+          	  	fileModel = controller.load();
+          	  	/*try{
+          	  		byte bt[]=Files.readAllBytes(f.toPath());
+          	  		str=new String(bt, "UTF-8");
+          	  		
+          	  		
+          	  	} catch (IOException ex){
+          	  		
+          	  	}*/
+          	  	strArr = fileModel.getLeft();
+          	  leftPanel.textarea.app;
+          	  	//readin
+            }	  
+           
+	    };	    
+	    leftPanel.loadBt.addActionListener(actionListener);         
+
+	    
+
+	    
     }
         
     public class TextAreaWithToolbarOnJPanel extends JPanel{
@@ -82,6 +117,7 @@ public class View extends JFrame{
 	public void InitToolBar(JToolBar tb){
 		tb.setFloatable(false);
 	}
+	//public JButton getButton()
 	/**
 	 * TODO: View는 Controller 또는 Model에게서 받은 Str Buffer를 가지고 컬러 표시 처리해야함.
 	 */
