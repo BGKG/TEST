@@ -6,8 +6,8 @@ public class CompareService {
 		
 		String[] leftString = filemodel.getLeft();
 		String[] rightString = filemodel.getRight();
-		boolean[] leftCompare = new boolean[leftString.length];
-		boolean[] rightCompare = new boolean[rightString.length];
+		Boolean[] leftCompare = new Boolean[leftString.length];
+		Boolean[] rightCompare = new Boolean[rightString.length];
 		
 		// left = n, right = m
 		int n,m;
