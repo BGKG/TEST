@@ -47,26 +47,6 @@ public class View extends JFrame{
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);
 	    
-	    actionListener = new ActionListener(){
-            public void actionPerformed(ActionEvent e) {                  
-                if(filechooser.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION)
-                	return;
-          	  	File f = filechooser.getSelectedFile();
-          	  	fileModel = controller.load();
-          	  	/*try{
-          	  		byte bt[]=Files.readAllBytes(f.toPath());
-          	  		str=new String(bt, "UTF-8");
-          	  		
-          	  		
-          	  	} catch (IOException ex){
-          	  		
-          	  	}*/
-          	  	strArr = fileModel.getLeft();
-          	  leftPanel.textarea.app;
-          	  	//readin
-            }	  
-           
-	    };	    
 	    leftPanel.loadBt.addActionListener(actionListener);         
 
 	    
