@@ -1,8 +1,12 @@
 package diff;
 
+import java.util.ArrayList;
+
 public class FileModel {
-	String[] left;
-	String[] right;
+	private String[] left;
+	private String[] right;
+	
+	private ArrayList<String> testleft=new ArrayList<String>();
 	
 	public String[] getLeft() {
 		return left;
@@ -16,4 +20,13 @@ public class FileModel {
 	public void setRight(String[] right) {
 		this.right = right;
 	}
+		
+	
+	
+	public ArrayList<String> getAryList(){return testleft;}
+	
+	//public void appendArray(String s){
+	//	testleft.add(s);
+	//}
+	
 }

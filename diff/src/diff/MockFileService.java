@@ -3,15 +3,19 @@ package diff;
 import java.io.File;
 
 public class MockFileService extends FileService{
-	FileModel load(Boolean lr,File file,FileModel model){
-		System.out.println("load called : fileName="+file.getPath()+"; lr="+lr);
+	public MockFileService(FileModel fm) {
+		super(fm);
+		// TODO Auto-generated constructor stub
+	}
+	FileModel load(Boolean lr,FileModel model){
+		System.out.println("load called : fileName="+this.getFile().getPath()+"; lr="+lr);
 		String[] temp = {"abcde","fg","abc","","aa"};
 		if(lr == false) model.setLeft(temp);
 		else model.setRight(temp);
 		return model;
 	}
-	void save(Boolean lr,File file,FileModel model){
-		System.out.println("Mock File Saved to :"+file.getPath());
+	void save(Boolean lr,FileModel model){
+		System.out.println("Mock File Saved to :"+this.getFile().getPath());
 		String[] temp;
 		if(lr)
 			temp=model.getRight();

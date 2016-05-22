@@ -13,20 +13,17 @@ public class View extends JFrame{
 
     private JToolBar toptoolbar = new JToolBar();
     private JSplitPane sp;
-    //private FileModel
+
     private JButton compareBt = new JButton("Compare");
     private JButton copy2rightBt = new JButton("C2R");
     private JButton copy2left = new JButton("C2L");  
     
     private JFileChooser filechooser = new JFileChooser();
     
-    private TextAreaWithToolbarOnJPanel leftPanel = new TextAreaWithToolbarOnJPanel();
-    private TextAreaWithToolbarOnJPanel rightPanel = new TextAreaWithToolbarOnJPanel();
+    private TextAreaWithToolbarOnJPanel leftPanel = new TextAreaWithToolbarOnJPanel("leftpanel");
+    private TextAreaWithToolbarOnJPanel rightPanel = new TextAreaWithToolbarOnJPanel("rightpanel");
 
-    private ActionListener actionListener;
-   
-    
-    public View(){
+    public View(FileModel fileModel){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
@@ -47,8 +44,7 @@ public class View extends JFrame{
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);
 	    
-	    leftPanel.loadBt.addActionListener(actionListener);         
-
+	    
 	    
 
 	    
@@ -60,9 +56,8 @@ public class View extends JFrame{
     	private JScrollPane scrollpane;
     	private JTextArea textarea;
     	private JButton loadBt, editBt, saveBt;
-    	private String strbuf;
     	
-    	public TextAreaWithToolbarOnJPanel(){
+    	public TextAreaWithToolbarOnJPanel(String nameStr){
     		loadBt = new JButton("Load");
     		editBt = new JButton("Edit");
     		saveBt = new JButton("Save");
@@ -75,7 +70,7 @@ public class View extends JFrame{
     		toolbar.add(loadBt);
     		toolbar.add(editBt);
     		toolbar.add(saveBt);
-    		
+
     		InitToolBar(toolbar);
     		InitScrollPane(scrollpane);
     		
@@ -84,12 +79,18 @@ public class View extends JFrame{
     		this.add(scrollpane, BorderLayout.CENTER);
 
     	}
-    	public JButton getButton(String str){   		
-
-    		return loadBt;
-    	}
+    	public JButton getLoadButton(){return loadBt;}
+    	public JButton getEditButton(){return editBt;}    	
+    	public JButton getSaveButton(){return saveBt;}
+    	public JTextArea getTextArea(){return textarea;}
+    	
     	
     }
+    public TextAreaWithToolbarOnJPanel getLeftTextPanel(){return leftPanel;}
+    public TextAreaWithToolbarOnJPanel getRightTextPanel(){return rightPanel;}
+    
+    public JFileChooser getFileChooser(){return filechooser;}
+    
 	public void InitScrollPane(JScrollPane sp){
         sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 

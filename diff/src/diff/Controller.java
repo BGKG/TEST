@@ -2,28 +2,33 @@ package diff;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import diff.View;
 
 public class Controller {
-
-    private Model model;
+	private FileModel fileModel;
     private View view;
+    private FileService fileService;
+    
     private ActionListener actionListener;
     
-    public Controller(Model model, View view){
-        this.model = model;
-        this.view = view;
-                          
+    public Controller(View v, FileModel fm, FileService fs){
+        this.view = v;
+        this.fileModel = fm;
+        this.fileService = fs;                  
     }
     
     public void contol(){        
         actionListener = new ActionListener() {
               public void actionPerformed(ActionEvent actionEvent) {                  
-                  //func();
+            	  fileService.load(true);                                                //FileService에게 load하라고 하고,
+            	  for(int i=0; i<fileModel.getAryList().size(); i++)
+            		  view.getLeftTextPanel().getTextArea().append(fileModel.getAryList().get(i));//View에게 로드한 파일의 내용을 적으라고(setText) 한다.
               }
         };                
-       // view.getButton().addActionListener(actionListener);   
+       view.getLeftTextPanel().getLoadButton().addActionListener(actionListener);  //left패널의 load버튼 액션 추가.
+ 
     }
     
     //private void func(){
