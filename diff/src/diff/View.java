@@ -9,7 +9,7 @@ import java.nio.file.Files;
 
 import javax.swing.*;
 
-public class View extends JFrame{
+public class View extends JFrame {
 
     private JToolBar toptoolbar = new JToolBar();
     private JSplitPane sp;
@@ -56,14 +56,18 @@ public class View extends JFrame{
     	private JScrollPane scrollpane;
     	private JTextArea textarea;
     	private JButton loadBt, editBt, saveBt;
+    	private boolean isEditable, isLeft;
     	
-    	public TextAreaWithToolbarOnJPanel(String nameStr){
+    	public TextAreaWithToolbarOnJPanel(String str){
     		loadBt = new JButton("Load");
     		editBt = new JButton("Edit");
+    		isEditable = false;
     		saveBt = new JButton("Save");
-
+    		isLeft = true;
+    		
     		toolbar = new JToolBar();
     		textarea = new JTextArea();
+    		textarea.setEditable(false);
     		scrollpane = new JScrollPane(textarea);
     		
     		
@@ -84,7 +88,9 @@ public class View extends JFrame{
     	public JButton getSaveButton(){return saveBt;}
     	public JTextArea getTextArea(){return textarea;}
     	
-    	
+    	public boolean getEditable(){return isEditable;}
+    	public void switchEdit(boolean b){isEditable=b;}
+    	public boolean isLeft(){return isLeft;}
     }
     public TextAreaWithToolbarOnJPanel getLeftTextPanel(){return leftPanel;}
     public TextAreaWithToolbarOnJPanel getRightTextPanel(){return rightPanel;}

@@ -1,17 +1,13 @@
 package diff;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 
 import javax.swing.JFileChooser;
 
 public class FileService {
 	private FileModel fileModel;
-	private File loadedFile;
-	
+
 	public FileService(FileModel fm){
 		this.fileModel=fm;
 	}
@@ -25,11 +21,25 @@ public class FileService {
 	    try {
 	        BufferedReader in = new BufferedReader(new FileReader(f));
 	        String s;
-	        String[] result = null;
-	        for (int i=0; (s = in.readLine()) != null; i++) {
-	        	fileModel.getAryList().add(s+"\n");
+	        String[] result;
+	        s=null;
+	        result=null;
+	        
+	        if(lr==true){
+	        	fileModel.resetLeftList();
+		        for (int i=0; (s = in.readLine()) != null; i++) {
+		        	fileModel.getLeftList().add(s+"\n");
+		        }
+		        fileModel.setLeftFile(f);
 	        }
-	        fileModel.setLeft(result);
+	        else{
+	        	fileModel.resetRightList();
+		        for (int i=0; (s = in.readLine()) != null; i++) {
+		        	fileModel.getRightList().add(s+"\n");
+		        }
+
+		        fileModel.setRightFile(f);
+	        }
 	    } catch (IOException ex) {
 	        //Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
 	    }
@@ -37,8 +47,43 @@ public class FileService {
 		//return fileModel;
 	}
 	
+	public void save(Boolean lr){
+		JFileChooser jf = new JFileChooser();
+	    int returnval=jf.showSaveDialog(null);
+	    File f = null;
+	    FileOutputStream fos=null;	    
+	    if(returnval == JFileChooser.APPROVE_OPTION)
+	    	f=jf.getSelectedFile();
+	    
+		try{
+			//BufferedWriter out = new BufferedWriter(new FileWriter(f));
+			fos = new FileOutputStream(f);
+			String s=null;
+			if(lr==true){
+				for(int i=0; i<fileModel.getLeftList().size(); i++){
+					s+=fileModel.getLeftList().get(i);
+				}
+				byte[] buf = s.getBytes();
+				fos.write(buf);				
+			}
+			else{
+				for(int i=0; i<fileModel.getRightList().size(); i++){
+					s+=fileModel.getRightList().get(i);
+				}
+				byte[] buf = s.getBytes();
+				fos.write(buf);
+			}
+
+		} catch(IOException e){
+			
+		}
+		/**
+		 * TODO:덮어쓰기, 다른 이름으로 저장, 그냥 저장
+		 */
+	}
+	
 	public FileModel getFileModel(){return fileModel;}
-	public File getFile(){return loadedFile;}
+	public File getFile(){return fileModel.getLeftFile();}
 	/**
 	 * 지정한 위치의 파일에 저장합니다
 	 * 
