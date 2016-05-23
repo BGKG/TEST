@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javax.swing.*;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 public class View extends JFrame {
 
@@ -54,7 +58,9 @@ public class View extends JFrame {
     	
        	private JToolBar toolbar;   	
     	private JScrollPane scrollpane;
-    	private JTextArea textarea;
+    	private JTextPane textarea;
+    	private StyledDocument doc;
+    	private Style def, s;
     	private JButton loadBt, editBt, saveBt;
     	private boolean isEditable, isLeft;
     	
@@ -66,7 +72,17 @@ public class View extends JFrame {
     		isLeft = true;
     		
     		toolbar = new JToolBar();
-    		textarea = new JTextArea();
+    		textarea = new JTextPane();
+    		
+    		doc=textarea.getStyledDocument();
+    		def=StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+    		s = doc.addStyle("black", def);
+    		StyleConstants.setForeground(s, Color.black);
+    		s = doc.addStyle("blue", def);
+    		StyleConstants.setForeground(s, Color.blue);
+    		s = doc.addStyle("red", def);
+    		StyleConstants.setForeground(s, Color.red);
+    		
     		textarea.setEditable(false);
     		scrollpane = new JScrollPane(textarea);
     		
@@ -86,7 +102,8 @@ public class View extends JFrame {
     	public JButton getLoadButton(){return loadBt;}
     	public JButton getEditButton(){return editBt;}    	
     	public JButton getSaveButton(){return saveBt;}
-    	public JTextArea getTextArea(){return textarea;}
+    	public JTextPane getTextArea(){return textarea;}
+    	public StyledDocument getDoc(){return doc;}
     	
     	public boolean getEditable(){return isEditable;}
     	public void switchEdit(boolean b){isEditable=b;}

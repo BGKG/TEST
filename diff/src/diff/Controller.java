@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.text.BadLocationException;
 
 import diff.View;
 
@@ -20,7 +21,7 @@ public class Controller{
         this.fileModel = fm;
         this.fileService = fs;                  
     }
-    
+ 
     public void contol(){        
         actionListener = new ActionListener() {
               public void actionPerformed(ActionEvent actionEvent) {
@@ -30,9 +31,18 @@ public class Controller{
 	            		  //FileService에게 load하라고 하고, 
 	            		  fileService.load(true);       
 	            		  view.getLeftTextPanel().getTextArea().setText(null);
-	            		  for(int i=0; i<fileModel.getLeftList().size(); i++)
-	            			  //View에게 로드한 파일의 내용을 적으라고(setText) 한다.	            			  
-	            			  view.getLeftTextPanel().getTextArea().append(fileModel.getLeftList().get(i));
+            			  /**
+            			   *  View에게 로드한 파일의 내용을 적으라고(insertString) 한다. 
+            			   *  TODO: 코드가 매우 너저분해서 view에 메소드 추가 필요.	  
+            			   */
+	            		  for(int i=0; i<fileModel.getLeftList().size(); i++){	            			  
+	            			  try {
+								view.getLeftTextPanel().getDoc().insertString(view.getLeftTextPanel().getDoc().getLength(),fileModel.getLeftList().get(i),view.getLeftTextPanel().getDoc().getStyle("red"));
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	            		  }         			  
 	            	  }
 	            	  if(Button.equals(view.getLeftTextPanel().getEditButton())){
 	            		  if(view.getLeftTextPanel().getEditable()==false)
@@ -53,9 +63,14 @@ public class Controller{
 	            		  //FileService에게 load하라고 하고, 
 	            		  fileService.load(false);  
 	            		  view.getRightTextPanel().getTextArea().setText(null);
-	            		  for(int i=0; i<fileModel.getRightList().size(); i++)
-	            			  //View에게 로드한 파일의 내용을 적으라고(setText) 한다.
-	            			  view.getRightTextPanel().getTextArea().append(fileModel.getRightList().get(i));
+	            		  for(int i=0; i<fileModel.getRightList().size(); i++){
+	            			  try {
+								view.getRightTextPanel().getDoc().insertString(view.getRightTextPanel().getDoc().getLength(),fileModel.getRightList().get(i),view.getRightTextPanel().getDoc().getStyle("black"));
+							} catch (BadLocationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	            		  }
 	            	  }
 	            	  if(Button.equals(view.getRightTextPanel().getEditButton())){
 	            		  if(view.getRightTextPanel().getEditable()==false)
@@ -71,6 +86,8 @@ public class Controller{
 	            	  if(Button.equals(view.getRightTextPanel().getSaveButton())){
 	            		  fileService.save(false); 
 	            	  }
+	            	  
+	            	  
             	  
               }
         };                
