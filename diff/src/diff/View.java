@@ -8,26 +8,26 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-public class View extends JFrame {
-
+public class View extends JFrame implements ActionListener{
+	
     private JToolBar toptoolbar = new JToolBar();
     private JSplitPane sp;
-
     private JButton compareBt = new JButton("Compare");
     private JButton copy2rightBt = new JButton("C2R");
     private JButton copy2left = new JButton("C2L");  
     
     private JFileChooser filechooser = new JFileChooser();
     
-    private TextAreaWithToolbarOnJPanel leftPanel = new TextAreaWithToolbarOnJPanel("leftpanel");
-    private TextAreaWithToolbarOnJPanel rightPanel = new TextAreaWithToolbarOnJPanel("rightpanel");
-
-    public View(FileModel fileModel){
+    private TextAreaWithToolbarOnJPanel leftPanel;
+    private TextAreaWithToolbarOnJPanel rightPanel;   
+    
+    public View(){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
@@ -40,21 +40,33 @@ public class View extends JFrame {
         toptoolbar.add(compareBt);
         toptoolbar.add(copy2rightBt); 
         toptoolbar.add(copy2left);       
-        
-        
+                
         this.add(sp, BorderLayout.CENTER);
         this.add(toptoolbar, BorderLayout.NORTH);
         
+        leftPanel= new TextAreaWithToolbarOnJPanel("leftpanel");
+        rightPanel= new TextAreaWithToolbarOnJPanel("rightpanel");
 	    sp.setLeftComponent(leftPanel);
-	    sp.setRightComponent(rightPanel);
-	    
-	    
-	    
-
-	    
+	    sp.setRightComponent(rightPanel);   
     }
-        
-    public class TextAreaWithToolbarOnJPanel extends JPanel{
+    
+    public void actionPerformed(ActionEvent e){
+    //TODO: 메인 프레임 액션들 추가
+    }
+
+    public TextAreaWithToolbarOnJPanel getLeftTextPanel(){return leftPanel;}
+    public TextAreaWithToolbarOnJPanel getRightTextPanel(){return rightPanel;}
+    
+    public JFileChooser getFileChooser(){return filechooser;}
+    
+	public void InitScrollPane(JScrollPane sp){
+        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+	}
+	public void InitToolBar(JToolBar tb){
+		tb.setFloatable(false);
+	}
+    public class TextAreaWithToolbarOnJPanel extends JPanel implements ActionListener{
     	
        	private JToolBar toolbar;   	
     	private JScrollPane scrollpane;
@@ -69,10 +81,16 @@ public class View extends JFrame {
     		editBt = new JButton("Edit");
     		isEditable = false;
     		saveBt = new JButton("Save");
-    		isLeft = true;
+    		
+    		if(str=="leftpanel") isLeft = true;
+    		else 				 isLeft = false;
     		
     		toolbar = new JToolBar();
     		textarea = new JTextPane();
+    		
+    		loadBt.addActionListener(this);
+    		editBt.addActionListener(this);
+    		saveBt.addActionListener(this);
     		
     		doc=textarea.getStyledDocument();
     		def=StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
@@ -108,21 +126,55 @@ public class View extends JFrame {
     	public boolean getEditable(){return isEditable;}
     	public void switchEdit(boolean b){isEditable=b;}
     	public boolean isLeft(){return isLeft;}
-    }
-    public TextAreaWithToolbarOnJPanel getLeftTextPanel(){return leftPanel;}
-    public TextAreaWithToolbarOnJPanel getRightTextPanel(){return rightPanel;}
-    
-    public JFileChooser getFileChooser(){return filechooser;}
-    
-	public void InitScrollPane(JScrollPane sp){
-        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-	}
-	public void InitToolBar(JToolBar tb){
-		tb.setFloatable(false);
-	}
-	//public JButton getButton()
-	/**
-	 * TODO: View는 Controller 또는 Model에게서 받은 Str Buffer를 가지고 컬러 표시 처리해야함.
-	 */
+    	
+    	public void actionPerformed(ActionEvent e){
+			JButton Button = (JButton)e.getSource();
+			File file = null;
+			FileModel fm = null; //
+
+		    if(Button.equals(loadBt)){
+			    int returnval=filechooser.showOpenDialog(null);
+			    			    
+			    if(returnval == JFileChooser.APPROVE_OPTION)     
+			    	file = filechooser.getSelectedFile();
+		    	
+		    	//fm=Controller.load(true,file,fm);       
+		    	textarea.setText(null);
+		    	if(isLeft){
+			    	for(int i=0; i<fm.getLeftList().size(); i++){	            			  
+			    		try {
+			    			doc.insertString(doc.getLength(), fm.getLeftList().get(i), doc.getStyle("red"));
+			    		} catch (BadLocationException ex) {
+			    			// TODO Auto-generated catch block
+			    			ex.printStackTrace();
+			    		}
+			    	}
+		    	}
+		    	else{
+			    	for(int i=0; i<fm.getRightList().size(); i++){	            			  
+			    		try {
+			    			doc.insertString(doc.getLength(), fm.getRightList().get(i), doc.getStyle("black"));
+			    		} catch (BadLocationException ex) {
+			    			// TODO Auto-generated catch block
+			    			ex.printStackTrace();
+			    		}
+			    	}		    		
+		    	}        			  
+		    }
+		    if(Button.equals(editBt)){
+		    	if(isEditable==false)
+		    	{
+		    		textarea.setEditable(true);
+		    		switchEdit(true);
+		    	}
+		    	else{
+		    		textarea.setEditable(false);
+		    		switchEdit(false);
+		    	}
+		    }
+		    if(Button.equals(saveBt)){
+		    	//controller.save(true, file, fm); 
+		    }
+		}
+    }	
 }

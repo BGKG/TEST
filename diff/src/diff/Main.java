@@ -17,9 +17,9 @@ public class Main
             	CompareService compareService = new CompareService();
             	MergeService mergeService = new MergeService();
 
-                View view = new View(fileModel); 
+				View view = new View(); 
                 Controller controller = new Controller(view, fileModel, fileService,compareService,mergeService);
-                controller.contol();
+                //controller.contol();
             }
         });  
     }
