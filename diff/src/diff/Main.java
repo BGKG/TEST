@@ -13,10 +13,12 @@ public class Main
             @Override
             public void run() {          
             	FileModel fileModel = new FileModel();
-            	FileService fileService = new FileService(fileModel);
+            	FileService fileService = new FileService();
+            	CompareService compareService = new CompareService();
+            	MergeService mergeService = new MergeService();
 
                 View view = new View(fileModel); 
-                Controller controller = new Controller(view, fileModel, fileService);
+                Controller controller = new Controller(view, fileModel, fileService,compareService,mergeService);
                 controller.contol();
             }
         });  
