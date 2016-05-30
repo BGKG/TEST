@@ -16,7 +16,7 @@ public class ColoredJTextPane extends JTextPane{
         // super.paintComponent(g);
         setOpaque(false);         
     }
-
+ 
     protected void paintComponent(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
