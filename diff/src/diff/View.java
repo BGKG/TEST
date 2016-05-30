@@ -21,12 +21,11 @@ public class View extends JFrame implements ActionListener{
     private JButton compareBt = new JButton("Compare");
     private JButton copy2rightBt = new JButton("C2R");
     private JButton copy2left = new JButton("C2L");  
-    
     private JFileChooser filechooser = new JFileChooser();
-    
+    private Controller controller;
     private TextAreaWithToolbarOnJPanel leftPanel;
     private TextAreaWithToolbarOnJPanel rightPanel;   
-    
+
     public View(){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
@@ -35,7 +34,7 @@ public class View extends JFrame implements ActionListener{
         this.setVisible(true);    
         
         sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-   
+
         toptoolbar.setFloatable(false);
         toptoolbar.add(compareBt);
         toptoolbar.add(copy2rightBt); 
@@ -70,7 +69,7 @@ public class View extends JFrame implements ActionListener{
     	
        	private JToolBar toolbar;   	
     	private JScrollPane scrollpane;
-    	private JTextPane textarea;
+    	private ColoredJTextPane textarea;
     	private StyledDocument doc;
     	private Style def, s;
     	private JButton loadBt, editBt, saveBt;
@@ -81,12 +80,12 @@ public class View extends JFrame implements ActionListener{
     		editBt = new JButton("Edit");
     		isEditable = false;
     		saveBt = new JButton("Save");
-    		
+
     		if(str=="leftpanel") isLeft = true;
     		else 				 isLeft = false;
     		
     		toolbar = new JToolBar();
-    		textarea = new JTextPane();
+    		textarea = new ColoredJTextPane();
     		
     		loadBt.addActionListener(this);
     		editBt.addActionListener(this);
@@ -130,15 +129,15 @@ public class View extends JFrame implements ActionListener{
     	public void actionPerformed(ActionEvent e){
 			JButton Button = (JButton)e.getSource();
 			File file = null;
-			FileModel fm = null; //
-
+			FileModel fm = new FileModel(); //
+			
 		    if(Button.equals(loadBt)){
 			    int returnval=filechooser.showOpenDialog(null);
 			    			    
 			    if(returnval == JFileChooser.APPROVE_OPTION)     
 			    	file = filechooser.getSelectedFile();
 		    	
-		    	//fm=Controller.load(true,file,fm);       
+		    	fm=Controller.load(isLeft,file,fm);       
 		    	textarea.setText(null);
 		    	if(isLeft){
 			    	for(int i=0; i<fm.getLeftList().size(); i++){	            			  
@@ -149,6 +148,7 @@ public class View extends JFrame implements ActionListener{
 			    			ex.printStackTrace();
 			    		}
 			    	}
+			    	//textarea.diffColor(g);
 		    	}
 		    	else{
 			    	for(int i=0; i<fm.getRightList().size(); i++){	            			  
@@ -173,8 +173,9 @@ public class View extends JFrame implements ActionListener{
 		    	}
 		    }
 		    if(Button.equals(saveBt)){
-		    	//controller.save(true, file, fm); 
+		    	//Controller.save(true, file, fm); 
 		    }
 		}
     }	
+    
 }

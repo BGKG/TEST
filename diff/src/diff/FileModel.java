@@ -10,8 +10,11 @@ public class FileModel {
 	private ArrayList<String> testleft=new ArrayList<String>();
 	private ArrayList<String> testright=new ArrayList<String>();
 	
-	File leftFile = null;
-	File rightFile = null;
+	private File leftFile = null;
+	private File rightFile = null;
+	
+	public FileModel(){
+	}
 	
 	public String[] getLeft() {
 		return left;

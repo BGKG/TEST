@@ -7,18 +7,18 @@ import diff.View;
 public class Controller{
 	private FileModel fileModel;
     private View view;
-    private FileService fileService;
+    private static FileService fileService;
     private CompareService compareService;
     private MergeService mergeService;
     
     public Controller(View v, FileModel fm, FileService fs, CompareService cs, MergeService ms){
         this.view = v;
-        this.fileModel = fm;
+        this.fileModel = fm;      
         this.fileService = fs;
         this.compareService = cs;
         this.mergeService = ms;
     }
-    public FileModel load(Boolean lr,File file,FileModel fileModel){
+    public static FileModel load(Boolean lr,File file,FileModel fileModel){
     	return fileService.load(lr,file,fileModel);
     }
     public void save(Boolean lr,File file,FileModel fileModel){
