@@ -10,24 +10,48 @@ import javax.swing.text.BadLocationException;
 public class ColoredJTextPane extends JTextPane{
 	private CompareModel compModel;
 	private Rectangle CaretRect, diffRect;
-	private int flag=0;
+	private int left=0;
+	private int right=0;
 	
     public ColoredJTextPane() {
         // super.paintComponent(g);
         setOpaque(false);         
     }
- 
+ /**
+  * 색칠을 담당합니다
+  * @param
+  * @param
+  * @return 
+  */
     protected void paintComponent(Graphics g) {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        if(flag!=0){
-	        for(int i=1; i<=compModel.getLeft().length; i++){
-	            g.setColor(Color.GREEN);
-	            g.fillRect(0, i*16, getWidth(), i*16);       	
+        if((left==1)&&(compModel.getLeft().isEmpty()==false)){
+	        for(int i=0; i<compModel.getLeft().size(); i++){
+	        	if(compModel.getLeft().get(i)==false){
+		            g.setColor(Color.GREEN);
+		            g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
+	        	}
+	        	else if(compModel.getLeft().get(i)==true){
+	        		g.setColor(Color.MAGENTA);
+	        		g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
+	        	}
 	        }
         }
-	        
+        else if(right==1&&compModel.getRight().isEmpty()==false){
+	        for(int i=0; i<compModel.getRight().size(); i++){
+	        	if(compModel.getRight().get(i)==false){
+		            g.setColor(Color.GREEN);
+		            g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);    
+	        	}
+	        	else if(compModel.getRight().get(i)==true){
+	        		g.setColor(Color.MAGENTA);
+	        		g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
+	        	}
+	        }
+	    }
+		        
         try {
         	CaretRect = modelToView(getCaretPosition());
             if (CaretRect != null) {
@@ -40,13 +64,17 @@ public class ColoredJTextPane extends JTextPane{
 
         super.paintComponent(g);
     }
-    
+
     public void repaint(long tm, int x, int y, int width, int height) {
         super.repaint(tm, 0, 0, getWidth(), getHeight());
     }
     
-    public void setCompareModel(CompareModel cm){
+    public void setCompareModel(boolean b, CompareModel cm){
     	compModel=cm;
-    	flag=1;
+
+    	if(b==true)
+    		left=1;
+    	else
+    		right=1;
     }
 }

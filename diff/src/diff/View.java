@@ -20,12 +20,13 @@ public class View extends JFrame implements ActionListener{
     private JSplitPane sp;
     private JButton compareBt = new JButton("Compare");
     private JButton copy2rightBt = new JButton("C2R");
-    private JButton copy2left = new JButton("C2L");  
+    private JButton copy2leftBt = new JButton("C2L");  
     private JFileChooser filechooser = new JFileChooser();
     private Controller controller;
+	private FileModel fileModel = new FileModel();
     private TextAreaWithToolbarOnJPanel leftPanel;
     private TextAreaWithToolbarOnJPanel rightPanel;   
-
+    private CompareModel testcm = new CompareModel();
     public View(){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
@@ -38,10 +39,14 @@ public class View extends JFrame implements ActionListener{
         toptoolbar.setFloatable(false);
         toptoolbar.add(compareBt);
         toptoolbar.add(copy2rightBt); 
-        toptoolbar.add(copy2left);       
+        toptoolbar.add(copy2leftBt);       
                 
         this.add(sp, BorderLayout.CENTER);
         this.add(toptoolbar, BorderLayout.NORTH);
+        
+        compareBt.addActionListener(this);
+        copy2rightBt.addActionListener(this);
+        copy2leftBt.addActionListener(this);
         
         leftPanel= new TextAreaWithToolbarOnJPanel("leftpanel");
         rightPanel= new TextAreaWithToolbarOnJPanel("rightpanel");
@@ -50,7 +55,11 @@ public class View extends JFrame implements ActionListener{
     }
     
     public void actionPerformed(ActionEvent e){
-    //TODO: 메인 프레임 액션들 추가
+		JButton Button = (JButton)e.getSource();
+	    if(Button.equals(compareBt)&&leftPanel.isLoaded==true){
+	    		leftPanel.textarea.setCompareModel(true,testcm);
+		    	rightPanel.textarea.setCompareModel(false,testcm);		    		
+	    }
     }
 
     public TextAreaWithToolbarOnJPanel getLeftTextPanel(){return leftPanel;}
@@ -65,6 +74,9 @@ public class View extends JFrame implements ActionListener{
 	public void InitToolBar(JToolBar tb){
 		tb.setFloatable(false);
 	}
+	public void setController(Controller ct){
+        controller=ct;
+	}
     public class TextAreaWithToolbarOnJPanel extends JPanel implements ActionListener{
     	
        	private JToolBar toolbar;   	
@@ -74,6 +86,7 @@ public class View extends JFrame implements ActionListener{
     	private Style def, s;
     	private JButton loadBt, editBt, saveBt;
     	private boolean isEditable, isLeft;
+    	private boolean isLoaded=false;
     	
     	public TextAreaWithToolbarOnJPanel(String str){
     		loadBt = new JButton("Load");
@@ -123,13 +136,13 @@ public class View extends JFrame implements ActionListener{
     	public StyledDocument getDoc(){return doc;}
     	
     	public boolean getEditable(){return isEditable;}
+    	public boolean getLoaded(){return isLoaded;}
     	public void switchEdit(boolean b){isEditable=b;}
     	public boolean isLeft(){return isLeft;}
     	
     	public void actionPerformed(ActionEvent e){
 			JButton Button = (JButton)e.getSource();
 			File file = null;
-			FileModel fm = new FileModel(); //
 			
 		    if(Button.equals(loadBt)){
 			    int returnval=filechooser.showOpenDialog(null);
@@ -137,12 +150,13 @@ public class View extends JFrame implements ActionListener{
 			    if(returnval == JFileChooser.APPROVE_OPTION)     
 			    	file = filechooser.getSelectedFile();
 		    	
-		    	fm=Controller.load(isLeft,file,fm);       
+		    	fileModel=controller.load(isLeft,file,fileModel);       
 		    	textarea.setText(null);
 		    	if(isLeft){
-			    	for(int i=0; i<fm.getLeftList().size(); i++){	            			  
+		    		isLoaded=true;
+			    	for(int i=0; i<fileModel.getLeftList().size(); i++){	            			  
 			    		try {
-			    			doc.insertString(doc.getLength(), fm.getLeftList().get(i), doc.getStyle("red"));
+			    			doc.insertString(doc.getLength(), fileModel.getLeftList().get(i), doc.getStyle("black"));
 			    		} catch (BadLocationException ex) {
 			    			// TODO Auto-generated catch block
 			    			ex.printStackTrace();
@@ -151,9 +165,10 @@ public class View extends JFrame implements ActionListener{
 			    	//textarea.diffColor(g);
 		    	}
 		    	else{
-			    	for(int i=0; i<fm.getRightList().size(); i++){	            			  
+		    		isLoaded=true;
+			    	for(int i=0; i<fileModel.getRightList().size(); i++){	            			  
 			    		try {
-			    			doc.insertString(doc.getLength(), fm.getRightList().get(i), doc.getStyle("black"));
+			    			doc.insertString(doc.getLength(), fileModel.getRightList().get(i), doc.getStyle("black"));
 			    		} catch (BadLocationException ex) {
 			    			// TODO Auto-generated catch block
 			    			ex.printStackTrace();
@@ -175,6 +190,7 @@ public class View extends JFrame implements ActionListener{
 		    if(Button.equals(saveBt)){
 		    	//Controller.save(true, file, fm); 
 		    }
+
 		}
     }	
     

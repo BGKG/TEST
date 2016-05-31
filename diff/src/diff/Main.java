@@ -19,6 +19,7 @@ public class Main
 
 				View view = new View(); 
                 Controller controller = new Controller(view, fileModel, fileService,compareService,mergeService);
+                view.setController(controller);
                 //controller.contol();
             }
         });  
