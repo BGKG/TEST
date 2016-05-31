@@ -1,19 +1,21 @@
 package diff;
 
+import java.util.ArrayList;
+
 public class CompareModel {
-	private Boolean[] left;
-	private Boolean[] right;
+	private ArrayList<Boolean> left = new ArrayList<Boolean>();
+	private ArrayList<Boolean> right = new ArrayList<Boolean>();
 	
-	public Boolean[] getLeft() {
+	public ArrayList<Boolean> getLeft() {
 		return left;
 	}
-	public void setLeft(Boolean[] left) {
+	public void setLeft(ArrayList<Boolean> left) {
 		this.left = left;
 	}
-	public Boolean[] getRight() {
+	public ArrayList<Boolean> getRight() {
 		return right;
 	}
-	public void setRight(Boolean[] right) {
+	public void setRight(ArrayList<Boolean> right) {
 		this.right = right;
 	}
 }
