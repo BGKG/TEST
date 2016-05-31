@@ -57,6 +57,12 @@ public class MergeService {
 			targetstring.remove(i);
 		for(;basefront<=baseback;basefront++)
 			targetstring.add(i, basestring.get(basefront));
+
+		//set filemodel
+		if(lr)
+			fileModel.setLeft(targetstring);
+		else
+			fileModel.setRight(targetstring);
 		
 		return fileModel;
 	}
