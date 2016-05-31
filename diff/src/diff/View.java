@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -26,14 +28,13 @@ public class View extends JFrame implements ActionListener{
 	private FileModel fileModel = new FileModel();
     private TextAreaWithToolbarOnJPanel leftPanel;
     private TextAreaWithToolbarOnJPanel rightPanel;   
-    private CompareModel testcm = new CompareModel();
+
     public View(){
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
         this.setSize(640,480);        
         this.setVisible(true);    
-        
         sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         toptoolbar.setFloatable(false);
@@ -57,8 +58,11 @@ public class View extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 		JButton Button = (JButton)e.getSource();
 	    if(Button.equals(compareBt)&&leftPanel.isLoaded==true){
-	    		leftPanel.textarea.setCompareModel(true,testcm);
-		    	rightPanel.textarea.setCompareModel(false,testcm);		    		
+	    	//FileModel fm = new FileModel();
+	    	//fm.setLeft((ArrayList<String>) Arrays.asList(leftPanel.textarea.getText().split("\n")));
+	    	//fm.setRight((ArrayList<String>) Arrays.asList(rightPanel.textarea.getText().split("\n")));
+	    		leftPanel.textarea.setCompareModel(true,controller.compare(fileModel));
+		    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));		    		
 	    }
     }
 
@@ -154,9 +158,9 @@ public class View extends JFrame implements ActionListener{
 		    	textarea.setText(null);
 		    	if(isLeft){
 		    		isLoaded=true;
-			    	for(int i=0; i<fileModel.getLeftList().size(); i++){	            			  
+			    	for(int i=0; i<fileModel.getLeft().size(); i++){	            			  
 			    		try {
-			    			doc.insertString(doc.getLength(), fileModel.getLeftList().get(i), doc.getStyle("black"));
+			    			doc.insertString(doc.getLength(), fileModel.getLeft().get(i), doc.getStyle("black"));
 			    		} catch (BadLocationException ex) {
 			    			// TODO Auto-generated catch block
 			    			ex.printStackTrace();
@@ -166,9 +170,9 @@ public class View extends JFrame implements ActionListener{
 		    	}
 		    	else{
 		    		isLoaded=true;
-			    	for(int i=0; i<fileModel.getRightList().size(); i++){	            			  
+			    	for(int i=0; i<fileModel.getRight().size(); i++){	            			  
 			    		try {
-			    			doc.insertString(doc.getLength(), fileModel.getRightList().get(i), doc.getStyle("black"));
+			    			doc.insertString(doc.getLength(), fileModel.getRight().get(i), doc.getStyle("black"));
 			    		} catch (BadLocationException ex) {
 			    			// TODO Auto-generated catch block
 			    			ex.printStackTrace();

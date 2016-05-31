@@ -5,7 +5,7 @@ import java.io.File;
 import diff.View;
 
 public class Controller{
-	private FileModel fileModel;
+	//private FileModel fileModel;
     private View view;
     private FileService fileService;
     private CompareService compareService;
@@ -13,7 +13,7 @@ public class Controller{
     
     public Controller(View v, FileModel fm, FileService fs, CompareService cs, MergeService ms){
         this.view = v;
-        this.fileModel = fm;      
+       // this.fileModel = fm;      
         this.fileService = fs;
         this.compareService = cs;
         this.mergeService = ms;
@@ -31,9 +31,5 @@ public class Controller{
     	return mergeService.merge(lr,fileModel);
     }
     
-    
-    
-    public FileModel getFileModel(){
-    	return fileModel;
-    }
+
 }

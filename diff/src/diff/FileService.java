@@ -13,25 +13,22 @@ public class FileService {
 	    try {
 	        BufferedReader in = new BufferedReader(new FileReader(file));
 	        String s;
-	        String[] result;
 	        s=null;
-	        result=null;
 	        
 	        if(lr==true){
 	        	fileModel.resetLeftList();
-		        for (int i=0; (s = in.readLine()) != null; i++) {
-		        	fileModel.getLeftList().add(s+"\n");
+		        for (; (s = in.readLine()) != null;) {
+		        	fileModel.getLeft().add(s+"\n");
 		        }
-		        fileModel.setLeftFile(file);
 	        }
 	        else{
 	        	fileModel.resetRightList();
-		        for (int i=0; (s = in.readLine()) != null; i++) {
-		        	fileModel.getRightList().add(s+"\n");
+		        for (; (s = in.readLine()) != null;) {
+		        	fileModel.getRight().add(s+"\n");
 		        }
 
-		        fileModel.setRightFile(file);
 	        }
+	        in.close();
 	    } catch (IOException ex) {
 	        //Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
 	    	ex.printStackTrace();
@@ -53,15 +50,15 @@ public class FileService {
 			fos = new FileOutputStream(f);
 			String s=null;
 			if(lr==true){
-				for(int i=0; i<fileModel.getLeftList().size(); i++){
-					s+=fileModel.getLeftList().get(i);
+				for(int i=0; i<fileModel.getLeft().size(); i++){
+					s+=fileModel.getLeft().get(i);
 				}
 				byte[] buf = s.getBytes();
 				fos.write(buf);				
 			}
 			else{
-				for(int i=0; i<fileModel.getRightList().size(); i++){
-					s+=fileModel.getRightList().get(i);
+				for(int i=0; i<fileModel.getRight().size(); i++){
+					s+=fileModel.getRight().get(i);
 				}
 				byte[] buf = s.getBytes();
 				fos.write(buf);

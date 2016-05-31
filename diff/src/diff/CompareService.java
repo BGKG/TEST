@@ -14,32 +14,32 @@ public class CompareService {
 		
 		// initialize 
 		CompareModel comparemodel = new CompareModel();
-		String[] leftString = filemodel.getLeft();
-		String[] rightString = filemodel.getRight();
-		int[][] tempCompare = new int[rightString.length+1][leftString.length+1];
+		ArrayList<String> leftString = filemodel.getLeft();
+		ArrayList<String> rightString = filemodel.getRight();
+		int[][] tempCompare = new int[rightString.size()+1][leftString.size()+1];
 		leftCompare = new ArrayList<Boolean>();
 		rightCompare = new ArrayList<Boolean>();
 		int n=0, m=0; // for loop counter, left=n, right=m
 		
 		
 		// initialize compare array value
-		for(n=0 ; n<leftString.length+1 ; n++){
+		for(n=0 ; n<leftString.size()+1 ; n++){
 		tempCompare[0][n] = 0;
-			if(n<leftString.length)
+			if(n<leftString.size())
 				leftCompare.add(null);
 		}
 		
-		for(m=0 ; m<rightString.length+1 ; m++){
+		for(m=0 ; m<rightString.size()+1 ; m++){
 		tempCompare[m][0] = 0;
-			if(m<rightString.length)
+			if(m<rightString.size())
 				rightCompare.add(null);
 		}
 		
 		
 		// set compare array left = n, right = m
-		for(m=1 ; m < rightString.length+1 ; m++){
-			for(n=1 ; n < leftString.length+1 ; n++){
-				if(leftString[n-1] == rightString[m-1])
+		for(m=1 ; m < rightString.size()+1 ; m++){
+			for(n=1 ; n < leftString.size()+1 ; n++){
+				if(leftString.get(n-1).equals(rightString.get(m-1)))
 					tempCompare[m][n] = tempCompare[m-1][n-1] + 1;
 				
 				else{

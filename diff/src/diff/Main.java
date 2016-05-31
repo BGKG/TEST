@@ -1,10 +1,7 @@
 package diff;
 
 import javax.swing.SwingUtilities;
-
-
-import diff.View.*;
-import diff.Controller.*;
+import diff.*;
 
 public class Main
 {
