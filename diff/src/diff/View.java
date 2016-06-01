@@ -46,23 +46,28 @@ public class View extends JFrame implements ActionListener{
         this.add(toptoolbar, BorderLayout.NORTH);
         
         compareBt.addActionListener(this);
+        compareBt.setEnabled(false);
         copy2rightBt.addActionListener(this);
+        copy2rightBt.setEnabled(false);      
         copy2leftBt.addActionListener(this);
+        copy2leftBt.setEnabled(false);
         
         leftPanel= new TextAreaWithToolbarOnJPanel("leftpanel");
-        rightPanel= new TextAreaWithToolbarOnJPanel("rightpanel");
+        rightPanel= new TextAreaWithToolbarOnJPanel("rig'tpanel");
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);   
     }
     
     public void actionPerformed(ActionEvent e){
+
 		JButton Button = (JButton)e.getSource();
-	    if(Button.equals(compareBt)&&leftPanel.isLoaded==true){
+	    if(Button.equals(compareBt)){
 	    	//FileModel fm = new FileModel();
 	    	//fm.setLeft((ArrayList<String>) Arrays.asList(leftPanel.textarea.getText().split("\n")));
 	    	//fm.setRight((ArrayList<String>) Arrays.asList(rightPanel.textarea.getText().split("\n")));
 	    		leftPanel.textarea.setCompareModel(true,controller.compare(fileModel));
-		    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));		    		
+		    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));
+		    	super.repaint();
 	    }
     }
 
@@ -97,7 +102,7 @@ public class View extends JFrame implements ActionListener{
     		editBt = new JButton("Edit");
     		isEditable = false;
     		saveBt = new JButton("Save");
-
+    	
     		if(str=="leftpanel") isLeft = true;
     		else 				 isLeft = false;
     		
@@ -119,7 +124,7 @@ public class View extends JFrame implements ActionListener{
     		
     		textarea.setEditable(false);
     		scrollpane = new JScrollPane(textarea);
-    		
+    		scrollpane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     		
     		toolbar.add(loadBt);
     		toolbar.add(editBt);
@@ -139,6 +144,9 @@ public class View extends JFrame implements ActionListener{
     	public JTextPane getTextArea(){return textarea;}
     	public StyledDocument getDoc(){return doc;}
     	
+    	public ColoredJTextPane getColoredJTextPane(){
+    		return textarea;
+    	}
     	public boolean getEditable(){return isEditable;}
     	public boolean getLoaded(){return isLoaded;}
     	public void switchEdit(boolean b){isEditable=b;}
@@ -166,7 +174,6 @@ public class View extends JFrame implements ActionListener{
 			    			ex.printStackTrace();
 			    		}
 			    	}
-			    	//textarea.diffColor(g);
 		    	}
 		    	else{
 		    		isLoaded=true;
@@ -178,19 +185,39 @@ public class View extends JFrame implements ActionListener{
 			    			ex.printStackTrace();
 			    		}
 			    	}		    		
-		    	}        			  
+		    	}
+		    	if(leftPanel.isLoaded==true&&rightPanel.isLoaded==true){
+		    		compareBt.setEnabled(true);
+		            copy2rightBt.setEnabled(true);
+		            copy2leftBt.setEnabled(true);
+		    	}
 		    }
 		    if(Button.equals(editBt)){
 		    	if(isEditable==false)
 		    	{
 		    		textarea.setEditable(true);
+		    		loadBt.setEnabled(false);
+		    		saveBt.setEnabled(false);
+		    		compareBt.setEnabled(false);
+		    		copy2rightBt.setEnabled(false);
+		    		copy2leftBt.setEnabled(false);
 		    		switchEdit(true);
 		    	}
 		    	else{
 		    		textarea.setEditable(false);
+		    		loadBt.setEnabled(true);
+		    		saveBt.setEnabled(true);
+		    		compareBt.setEnabled(true);
+		    		copy2rightBt.setEnabled(true);
+		    		copy2leftBt.setEnabled(true);
+		    		if(Button.equals(leftPanel.editBt))
+		    			fileModel=controller.edit(true, fileModel, textarea);
+		    		else if(Button.equals(rightPanel.editBt)){
+		    			fileModel=controller.edit(false, fileModel, textarea);
+		    		}
 		    		switchEdit(false);
 		    	}
-		    }
+		    }	    
 		    if(Button.equals(saveBt)){
 		    	//Controller.save(true, file, fm); 
 		    }

@@ -13,9 +13,10 @@ public class Main
             	FileService fileService = new FileService();
             	CompareService compareService = new CompareService();
             	MergeService mergeService = new MergeService();
-
+            	EditService editService = new EditService();
+            	
 				View view = new View(); 
-                Controller controller = new Controller(view, fileModel, fileService,compareService,mergeService);
+                Controller controller = new Controller(view, fileModel, fileService,compareService,mergeService,editService);
                 view.setController(controller);
                 //controller.contol();
             }

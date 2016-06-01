@@ -12,7 +12,7 @@ public class ColoredJTextPane extends JTextPane{
 	private Rectangle CaretRect, diffRect;
 	private int left=0;
 	private int right=0;
-	
+
     public ColoredJTextPane() {
         // super.paintComponent(g);
         setOpaque(false);         
@@ -27,26 +27,26 @@ public class ColoredJTextPane extends JTextPane{
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        if((left==1)&&(compModel.getLeft().isEmpty()==false)){
+        if((left==1)&&(right==0)&&(compModel.getLeft().isEmpty()==false)){
 	        for(int i=0; i<compModel.getLeft().size(); i++){
 	        	if(compModel.getLeft().get(i)==false){
-		            g.setColor(Color.GREEN);
+		            g.setColor(new Color(255,239,133));
 		            g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
 	        	}
 	        	else if(compModel.getLeft().get(i)==true){
-	        		g.setColor(Color.MAGENTA);
+	        		g.setColor(Color.WHITE);
 	        		g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
 	        	}
 	        }
         }
-        else if(right==1&&compModel.getRight().isEmpty()==false){
+        else if((left==0)&&right==1&&compModel.getRight().isEmpty()==false){
 	        for(int i=0; i<compModel.getRight().size(); i++){
 	        	if(compModel.getRight().get(i)==false){
-		            g.setColor(Color.GREEN);
+		            g.setColor(new Color(255,239,133));
 		            g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);    
 	        	}
 	        	else if(compModel.getRight().get(i)==true){
-	        		g.setColor(Color.MAGENTA);
+	        		g.setColor(Color.WHITE);
 	        		g.fillRect(0, 3+i*18, getWidth(), (i+1)*18);
 	        	}
 	        }
@@ -61,7 +61,6 @@ public class ColoredJTextPane extends JTextPane{
         } catch (BadLocationException e) {
         	e.printStackTrace();
         }
-
         super.paintComponent(g);
     }
 
@@ -69,12 +68,16 @@ public class ColoredJTextPane extends JTextPane{
         super.repaint(tm, 0, 0, getWidth(), getHeight());
     }
     
-    public void setCompareModel(boolean b, CompareModel cm){
+    public void setCompareModel(boolean isleft, CompareModel cm){
     	compModel=cm;
 
-    	if(b==true)
+    	if(isleft==true){
     		left=1;
-    	else
+    		right=0;
+    	}
+    	else if(isleft==false){
+    		left=0;
     		right=1;
+    	}
     }
 }

@@ -14,9 +14,10 @@ public class FileService {
 	        BufferedReader in = new BufferedReader(new FileReader(file));
 	        String s;
 	        s=null;
-	        
+
 	        if(lr==true){
 	        	fileModel.resetLeftList();
+	        	
 		        for (; (s = in.readLine()) != null;) {
 		        	fileModel.getLeft().add(s+"\n");
 		        }
