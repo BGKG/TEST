@@ -1,25 +1,35 @@
 package diff;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MockFileService extends FileService{
-	FileModel load(Boolean lr,File file,FileModel model){
+	public MockFileService() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public FileModel load(Boolean lr,File file,FileModel model){
 		System.out.println("load called : fileName="+file.getPath()+"; lr="+lr);
-		String[] temp = {"abcde","fg","abc","","aa"};
+		ArrayList<String> temp = new ArrayList<String>();
+		temp.add("asdfasdf");
+		temp.add("as  dfasdfasdf");
+		temp.add("");
+		temp.add("aaaaa");
+		temp.add("bbbbb");
 		if(lr == false) model.setLeft(temp);
 		else model.setRight(temp);
 		return model;
 	}
-	void save(Boolean lr,File file,FileModel model){
+	public void save(Boolean lr,File file,FileModel model){
 		System.out.println("Mock File Saved to :"+file.getPath());
-		String[] temp;
+		ArrayList<String>temp= new ArrayList<String>();
 		if(lr)
 			temp=model.getRight();
 		else
 			temp=model.getLeft();
-		for(int i=0;i<temp.length;i++)
+		for(int i=0;i<temp.size();i++)
 		{
-			System.out.println(temp[i]);
+			System.out.println(temp.get(i));
 		}
 	}
 }
