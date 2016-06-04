@@ -1,4 +1,4 @@
-package diff;
+package diff.View;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +15,11 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+
+import Util.StringUtil;
+import diff.Controller;
+import diff.Model.CompareModel;
+import diff.Model.FileModel;
 
 public class View extends JFrame implements ActionListener{
 	

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import diff.*;
+import diff.Model.FileModel;
+import diff.Service.CompareService;
 
 public class MainTest {
 	private CompareService compareService = new CompareService();

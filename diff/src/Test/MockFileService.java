@@ -3,8 +3,8 @@ package Test;
 import java.io.File;
 import java.util.ArrayList;
 
-import diff.FileModel;
-import diff.FileService;
+import diff.Model.FileModel;
+import diff.Service.FileService;
 
 public class MockFileService extends FileService{
 	public MockFileService() {

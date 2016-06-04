@@ -2,6 +2,12 @@ package diff;
 
 import javax.swing.SwingUtilities;
 import diff.*;
+import diff.Model.FileModel;
+import diff.Service.CompareService;
+import diff.Service.EditService;
+import diff.Service.FileService;
+import diff.Service.MergeService;
+import diff.View.View;
 
 public class Main
 {

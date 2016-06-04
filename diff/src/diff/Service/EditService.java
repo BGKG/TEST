@@ -1,4 +1,7 @@
-package diff;
+package diff.Service;
+
+import diff.Model.FileModel;
+import diff.View.ColoredJTextPane;
 
 public class EditService {
 	public EditService(){

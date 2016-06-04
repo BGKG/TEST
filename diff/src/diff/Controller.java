@@ -2,7 +2,15 @@ package diff;
 
 
 import java.io.File;
-import diff.View;
+
+import diff.Model.CompareModel;
+import diff.Model.FileModel;
+import diff.Service.CompareService;
+import diff.Service.EditService;
+import diff.Service.FileService;
+import diff.Service.MergeService;
+import diff.View.ColoredJTextPane;
+import diff.View.View;
 
 public class Controller{
 	//private FileModel fileModel;

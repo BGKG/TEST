@@ -1,9 +1,11 @@
-package diff;
+package diff.Service;
 
 import java.io.*;
 import java.nio.file.Files;
 
 import javax.swing.JFileChooser;
+
+import diff.Model.FileModel;
 
 public class FileService {
 	public FileService(){

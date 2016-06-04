@@ -1,5 +1,8 @@
-package diff;
+package diff.Service;
 import java.util.ArrayList;
+
+import diff.Model.CompareModel;
+import diff.Model.FileModel;
 
 public class CompareService {
 	private ArrayList<Integer> leftCompare;
