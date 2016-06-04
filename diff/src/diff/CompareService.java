@@ -53,10 +53,7 @@ public class CompareService {
 				} catch (NullPointerException e) {
 					continue;
 				}
-				
-				System.out.print(tempCompare[m][n]+" ");
 			}
-			System.out.println("");
 		}
 		
 		
