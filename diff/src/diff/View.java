@@ -53,7 +53,7 @@ public class View extends JFrame implements ActionListener{
         copy2leftBt.setEnabled(false);
         
         leftPanel= new TextAreaWithToolbarOnJPanel("leftpanel");
-        rightPanel= new TextAreaWithToolbarOnJPanel("rig'tpanel");
+        rightPanel= new TextAreaWithToolbarOnJPanel("rightpanel");
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);   
     }
@@ -192,7 +192,7 @@ public class View extends JFrame implements ActionListener{
 		            copy2leftBt.setEnabled(true);
 		    	}
 		    }
-		    if(Button.equals(editBt)){
+		    if(Button.equals(leftPanel.editBt)){
 		    	if(isEditable==false)
 		    	{
 		    		textarea.setEditable(true);
@@ -201,6 +201,9 @@ public class View extends JFrame implements ActionListener{
 		    		compareBt.setEnabled(false);
 		    		copy2rightBt.setEnabled(false);
 		    		copy2leftBt.setEnabled(false);
+		    		rightPanel.loadBt.setEnabled(false);
+		    		rightPanel.editBt.setEnabled(false);
+		    		rightPanel.saveBt.setEnabled(false);
 		    		switchEdit(true);
 		    	}
 		    	else{
@@ -210,14 +213,41 @@ public class View extends JFrame implements ActionListener{
 		    		compareBt.setEnabled(true);
 		    		copy2rightBt.setEnabled(true);
 		    		copy2leftBt.setEnabled(true);
-		    		if(Button.equals(leftPanel.editBt))
-		    			fileModel=controller.edit(true, fileModel, textarea);
-		    		else if(Button.equals(rightPanel.editBt)){
-		    			fileModel=controller.edit(false, fileModel, textarea);
-		    		}
+		    		rightPanel.loadBt.setEnabled(true);
+		    		rightPanel.editBt.setEnabled(true);
+		    		rightPanel.saveBt.setEnabled(true);		    		
+		    		fileModel=controller.edit(true, fileModel, textarea);
 		    		switchEdit(false);
+		    		}		    		
+		    }
+		    if(Button.equals(rightPanel.editBt)){
+		    	if(isEditable==false)
+		    	{
+		    		textarea.setEditable(true);
+		    		loadBt.setEnabled(false);
+		    		saveBt.setEnabled(false);
+		    		compareBt.setEnabled(false);
+		    		copy2rightBt.setEnabled(false);
+		    		copy2leftBt.setEnabled(false);
+		    		leftPanel.loadBt.setEnabled(false);
+		    		leftPanel.editBt.setEnabled(false);
+		    		leftPanel.saveBt.setEnabled(false);
+		    		switchEdit(true);
 		    	}
-		    }	    
+		    	else{
+		    		textarea.setEditable(false);
+		    		loadBt.setEnabled(true);
+		    		saveBt.setEnabled(true);
+		    		compareBt.setEnabled(true);
+		    		copy2rightBt.setEnabled(true);
+		    		copy2leftBt.setEnabled(true);
+		    		leftPanel.loadBt.setEnabled(true);
+		    		leftPanel.editBt.setEnabled(true);
+		    		leftPanel.saveBt.setEnabled(true);		    		
+		    		fileModel=controller.edit(false, fileModel, textarea);
+		    		switchEdit(false);
+		    		}	    		
+		    }		    	    
 		    if(Button.equals(saveBt)){
 		    	//Controller.save(true, file, fm); 
 		    }

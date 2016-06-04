@@ -39,7 +39,7 @@ public class ColoredJTextPane extends JTextPane{
 	        	}
 	        }
         }
-        else if((left==0)&&right==1&&compModel.getRight().isEmpty()==false){
+        else if((left==0)&&(right==1)&&(compModel.getRight().isEmpty()==false)){
 	        for(int i=0; i<compModel.getRight().size(); i++){
 	        	if(compModel.getRight().get(i)==false){
 		            g.setColor(new Color(255,239,133));
