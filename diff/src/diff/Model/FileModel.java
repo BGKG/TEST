@@ -1,18 +1,16 @@
 package diff.Model;
 
-import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * 파일에서 불러온 결과물을 저장합니다.
+ * @author 임철우
+ *
+ */
 public class FileModel {
 	private ArrayList<String> left=new ArrayList<String>();
 	private ArrayList<String> right=new ArrayList<String>();
 	
-	private File leftFile = null;
-	private File rightFile = null;
-	
-	public FileModel() {
-	}
-
 	public ArrayList<String> getLeft() {
 		return left;
 	}

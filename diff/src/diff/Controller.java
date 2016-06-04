@@ -11,7 +11,11 @@ import diff.Service.FileService;
 import diff.Service.MergeService;
 import diff.View.ColoredJTextPane;
 import diff.View.View;
-
+/**
+ * 컨트롤러. 뷰와 서비스 사이를 중계해주는 역할.
+ * @author 임철우
+ *
+ */
 public class Controller{
 	//private FileModel fileModel;
     private View view;

@@ -17,8 +17,8 @@ public class CompareService {
 		
 		// initialize 
 		CompareModel comparemodel = new CompareModel();
-		ArrayList<String> leftString = filemodel.getLeft();
-		ArrayList<String> rightString = filemodel.getRight();
+		ArrayList<String> leftString = (ArrayList<String>)filemodel.getLeft().clone();
+		ArrayList<String> rightString = (ArrayList<String>)filemodel.getRight().clone();
 		int[][] tempCompare = new int[rightString.size()+1][leftString.size()+1];
 		leftCompare = new ArrayList<Integer>();
 		rightCompare = new ArrayList<Integer>();
@@ -43,7 +43,7 @@ public class CompareService {
 		for(m=1 ; m < rightString.size()+1 ; m++){
 			for(n=1 ; n < leftString.size()+1 ; n++){
 				try {
-					if (leftString.get(n - 1).equals(rightString.get(m - 1)))
+					if (leftString.get(n - 1).equals(rightString.get(m - 1))&&!(leftString.get(n-1).equals("\r\n")||rightString.get(m-1).equals("\r\n")))
 						tempCompare[m][n] = tempCompare[m - 1][n - 1] + 1;
 
 					else {
@@ -62,6 +62,14 @@ public class CompareService {
 		
 		RecursiveCompareLogic(n-1, m-1, tempCompare);
 		for(n=0;n<leftCompare.size();n++){
+			if(leftCompare.get(n) == -1 || rightCompare.get(n) == -1)
+				continue;
+			if(leftCompare.get(n)==0 && rightCompare.get(n)==0){
+				if(leftString.get(n).equals("\r\n")&&rightString.get(n).equals("\r\n")){
+					leftCompare.set(n, 1);
+					rightCompare.set(n, 1);
+				}
+			}
 			if(leftCompare.get(n)==0 && rightCompare.get(n)==1){
 				rightCompare.add(n,-1);
 				rightString.add(n,"\n");
@@ -71,11 +79,12 @@ public class CompareService {
 				leftString.add(n,"\n");
 			}
 		}
-		filemodel.setLeft(leftString);
-		filemodel.setRight(rightString);
+		FileModel temp = new FileModel();
+		temp.setLeft(leftString);
+		temp.setRight(rightString);
 		comparemodel.setLeft(leftCompare);
 		comparemodel.setRight(rightCompare);
-		comparemodel.setFileModel(filemodel);
+		comparemodel.setFileModel(temp);
 		return comparemodel;
 	}
 	
