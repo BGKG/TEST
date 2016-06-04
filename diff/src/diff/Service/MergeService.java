@@ -34,38 +34,54 @@ public class MergeService {
 			basecompare = comparemodel.getLeft();
 		}
 		
-		// initialize variable
-		int targetTrue=0, baseTrue=0;
-		int basefront=0, baseback=0;
-		int i=0; // loopcounter
-		//set baseTrue
-		for(;i<index;i++){
-			if(basecompare.get(i)==1)
-				baseTrue++;
+		if(basecompare.get(index)==1)
+			return fileModel;
+		
+		int i, baseFrontCheck;
+		
+		for(baseFrontCheck=index;;baseFrontCheck--){
+			if(basecompare.get(baseFrontCheck) == 1)
+				break;
 		}
-		//set basefront
-		for(i=index;basecompare.get(i)==1;i--)
-			basefront=i;
-		//set baseback
-		for(i=index;basecompare.get(i)==1;i++)
-			baseback=i;
-		//set targetTrue
-		for(i=0;targetTrue<baseTrue;i++){
-			if(targetcompare.get(i)==1)
-				targetTrue++;
+		
+	
+		if(basecompare.get(index) == 0){
+			for(i=baseFrontCheck+1;i<basecompare.size();i++){
+				if(basecompare.get(i)==1)
+					break;
+			
+				targetstring.set(i, basestring.get(i));
+				targetcompare.set(i, 1);
+				basecompare.set(i, 1);
+			}
 		}
-
-		// merge with variable
-		for(;targetcompare.get(i)==1;i++)
-			targetstring.remove(i);
-		for(;basefront<=baseback;basefront++)
-			targetstring.add(i, basestring.get(basefront));
+		
+		else if(basecompare.get(index) == -1){
+			for(i=baseFrontCheck+1;i<basecompare.size();){
+				if(basecompare.get(i)==1)
+					break;
+			
+				targetstring.remove(i);
+				basestring.remove(i);
+				targetcompare.remove(i);
+				basecompare.remove(i);
+			}
+		}
+			
 
 		//set filemodel
-		if(lr)
+		if(lr){
 			fileModel.setLeft(targetstring);
-		else
+			fileModel.setRight(basestring);
+			comparemodel.setLeft(targetcompare);
+			comparemodel.setRight(basecompare);
+		}
+		else{
 			fileModel.setRight(targetstring);
+			fileModel.setLeft(basestring);
+			comparemodel.setRight(targetcompare);
+			comparemodel.setLeft(basecompare);
+		}
 		
 		return fileModel;
 	}
