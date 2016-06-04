@@ -33,8 +33,9 @@ public class View extends JFrame implements ActionListener{
     	this.setTitle("Diff");
         this.setLayout(new BorderLayout());                                          
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);           
-        this.setSize(640,480);        
+        this.setSize(1024,640);        
         this.setVisible(true);    
+        this.setLocationRelativeTo(null);
         sp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
         toptoolbar.setFloatable(false);
@@ -54,6 +55,7 @@ public class View extends JFrame implements ActionListener{
         
         leftPanel= new TextAreaWithToolbarOnJPanel("leftpanel");
         rightPanel= new TextAreaWithToolbarOnJPanel("rightpanel");
+        sp.setResizeWeight(.5d);
 	    sp.setLeftComponent(leftPanel);
 	    sp.setRightComponent(rightPanel);   
     }
@@ -62,12 +64,9 @@ public class View extends JFrame implements ActionListener{
 
 		JButton Button = (JButton)e.getSource();
 	    if(Button.equals(compareBt)){
-	    	//FileModel fm = new FileModel();
-	    	//fm.setLeft((ArrayList<String>) Arrays.asList(leftPanel.textarea.getText().split("\n")));
-	    	//fm.setRight((ArrayList<String>) Arrays.asList(rightPanel.textarea.getText().split("\n")));
-	    		leftPanel.textarea.setCompareModel(true,controller.compare(fileModel));
-		    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));
-		    	super.repaint();
+    		leftPanel.textarea.setCompareModel(true,controller.compare(fileModel));
+	    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));
+	    	super.repaint();
 	    }
     }
 
@@ -76,13 +75,6 @@ public class View extends JFrame implements ActionListener{
     
     public JFileChooser getFileChooser(){return filechooser;}
     
-	public void InitScrollPane(JScrollPane sp){
-        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-	}
-	public void InitToolBar(JToolBar tb){
-		tb.setFloatable(false);
-	}
 	public void setController(Controller ct){
         controller=ct;
 	}
@@ -129,15 +121,17 @@ public class View extends JFrame implements ActionListener{
     		toolbar.add(loadBt);
     		toolbar.add(editBt);
     		toolbar.add(saveBt);
-
-    		InitToolBar(toolbar);
-    		InitScrollPane(scrollpane);
+    		toolbar.setFloatable(false);
+    		
+            scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
     		
     		this.setLayout(new BorderLayout());  		
     		this.add(toolbar, BorderLayout.NORTH);
     		this.add(scrollpane, BorderLayout.CENTER);
 
     	}
+
     	public JButton getLoadButton(){return loadBt;}
     	public JButton getEditButton(){return editBt;}    	
     	public JButton getSaveButton(){return saveBt;}
@@ -197,27 +191,11 @@ public class View extends JFrame implements ActionListener{
 		    if(Button.equals(leftPanel.editBt)){
 		    	if(isEditable==false)
 		    	{
-		    		textarea.setEditable(true);
-		    		loadBt.setEnabled(false);
-		    		saveBt.setEnabled(false);
-		    		compareBt.setEnabled(false);
-		    		copy2rightBt.setEnabled(false);
-		    		copy2leftBt.setEnabled(false);
-		    		rightPanel.loadBt.setEnabled(false);
-		    		rightPanel.editBt.setEnabled(false);
-		    		rightPanel.saveBt.setEnabled(false);
+		    		leftDisableBts(true);
 		    		switchEdit(true);
 		    	}
 		    	else{
-		    		textarea.setEditable(false);
-		    		loadBt.setEnabled(true);
-		    		saveBt.setEnabled(true);
-		    		compareBt.setEnabled(true);
-		    		copy2rightBt.setEnabled(true);
-		    		copy2leftBt.setEnabled(true);
-		    		rightPanel.loadBt.setEnabled(true);
-		    		rightPanel.editBt.setEnabled(true);
-		    		rightPanel.saveBt.setEnabled(true);		    		
+		    		leftDisableBts(false);	    		
 		    		fileModel=controller.edit(true, fileModel, textarea);
 		    		switchEdit(false);
 		    		}		    		
@@ -225,27 +203,11 @@ public class View extends JFrame implements ActionListener{
 		    if(Button.equals(rightPanel.editBt)){
 		    	if(isEditable==false)
 		    	{
-		    		textarea.setEditable(true);
-		    		loadBt.setEnabled(false);
-		    		saveBt.setEnabled(false);
-		    		compareBt.setEnabled(false);
-		    		copy2rightBt.setEnabled(false);
-		    		copy2leftBt.setEnabled(false);
-		    		leftPanel.loadBt.setEnabled(false);
-		    		leftPanel.editBt.setEnabled(false);
-		    		leftPanel.saveBt.setEnabled(false);
+		    		rightDisableBts(true);
 		    		switchEdit(true);
 		    	}
 		    	else{
-		    		textarea.setEditable(false);
-		    		loadBt.setEnabled(true);
-		    		saveBt.setEnabled(true);
-		    		compareBt.setEnabled(true);
-		    		copy2rightBt.setEnabled(true);
-		    		copy2leftBt.setEnabled(true);
-		    		leftPanel.loadBt.setEnabled(true);
-		    		leftPanel.editBt.setEnabled(true);
-		    		leftPanel.saveBt.setEnabled(true);		    		
+		    		rightDisableBts(false);	    		
 		    		fileModel=controller.edit(false, fileModel, textarea);
 		    		switchEdit(false);
 		    		}	    		
@@ -257,5 +219,27 @@ public class View extends JFrame implements ActionListener{
 		    	controller.save(false, file, fileModel); 
 		    }		    
 		}
+    	private void leftDisableBts(boolean b){
+    		textarea.setEditable(b);
+    		loadBt.setEnabled(!b);
+    		saveBt.setEnabled(!b);
+    		compareBt.setEnabled(!b);
+    		copy2rightBt.setEnabled(!b);
+    		copy2leftBt.setEnabled(!b);
+    		rightPanel.loadBt.setEnabled(!b);
+    		rightPanel.editBt.setEnabled(!b);
+    		rightPanel.saveBt.setEnabled(!b);
+    	}
+    	private void rightDisableBts(boolean b){
+    		textarea.setEditable(b);
+    		loadBt.setEnabled(!b);
+    		saveBt.setEnabled(!b);
+    		compareBt.setEnabled(!b);
+    		copy2rightBt.setEnabled(!b);
+    		copy2leftBt.setEnabled(!b);
+    		leftPanel.loadBt.setEnabled(!b);
+    		leftPanel.editBt.setEnabled(!b);
+    		leftPanel.saveBt.setEnabled(!b);
+    	}    	
     }	   
 }
