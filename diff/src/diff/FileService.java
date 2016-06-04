@@ -49,20 +49,26 @@ public class FileService {
 		try{
 			//BufferedWriter out = new BufferedWriter(new FileWriter(f));
 			fos = new FileOutputStream(f);
-			String s=null;
+			
+			String s = null;
+			
 			if(lr==true){
 				for(int i=0; i<fileModel.getLeft().size(); i++){
-					s+=fileModel.getLeft().get(i);
+					s+=fileModel.getLeft().get(i).substring(0, fileModel.getLeft().get(i).length());
 				}
+				s=s.replaceAll("\r", "");
+				s=s.substring(4);
 				byte[] buf = s.getBytes();
 				fos.write(buf);				
 			}
 			else{
 				for(int i=0; i<fileModel.getRight().size(); i++){
-					s+=fileModel.getRight().get(i);
+					s+=fileModel.getRight().get(i).substring(0, fileModel.getRight().get(i).length());
 				}
+				s=s.replaceAll("\r", "");
+				s=s.substring(4);
 				byte[] buf = s.getBytes();
-				fos.write(buf);
+				fos.write(buf);			
 			}
 
 		} catch(IOException e){

@@ -250,9 +250,12 @@ public class View extends JFrame implements ActionListener{
 		    		switchEdit(false);
 		    		}	    		
 		    }		    	    
-		    if(Button.equals(saveBt)){
-		    	//Controller.save(true, file, fm); 
+		    if(Button.equals(leftPanel.saveBt)){
+		    	controller.save(true, file, fileModel); 
 		    }
+		    if(Button.equals(rightPanel.saveBt)){
+		    	controller.save(false, file, fileModel); 
+		    }		    
 		}
     }	   
 }
