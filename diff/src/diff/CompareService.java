@@ -26,30 +26,39 @@ public class CompareService {
 		for(n=0 ; n<leftString.size()+1 ; n++){
 		tempCompare[0][n] = 0;
 			if(n<leftString.size())
-				leftCompare.add(null);
+				leftCompare.add(false);
 		}
 		
 		for(m=0 ; m<rightString.size()+1 ; m++){
 		tempCompare[m][0] = 0;
 			if(m<rightString.size())
-				rightCompare.add(null);
+				rightCompare.add(false);
 		}
 		
 		
 		// set compare array left = n, right = m
 		for(m=1 ; m < rightString.size()+1 ; m++){
 			for(n=1 ; n < leftString.size()+1 ; n++){
-				if(leftString.get(n-1).equals(rightString.get(m-1)))
-					tempCompare[m][n] = tempCompare[m-1][n-1] + 1;
-				
-				else{
-					if(tempCompare[m-1][n] > tempCompare[m][n-1])
-						tempCompare[m][n] = tempCompare[m-1][n];
-					else
-						tempCompare[m][n] = tempCompare[m][n-1];
+				try {
+					if (leftString.get(n - 1).equals(rightString.get(m - 1)))
+						tempCompare[m][n] = tempCompare[m - 1][n - 1] + 1;
+
+					else {
+						if (tempCompare[m - 1][n] > tempCompare[m][n - 1])
+							tempCompare[m][n] = tempCompare[m - 1][n];
+						else
+							tempCompare[m][n] = tempCompare[m][n - 1];
+					}
+
+				} catch (NullPointerException e) {
+					continue;
 				}
+				
+				System.out.print(tempCompare[m][n]+" ");
 			}
+			System.out.println("");
 		}
+		
 		
 		RecursiveCompareLogic(n-1, m-1, tempCompare);
 		
