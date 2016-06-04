@@ -2,20 +2,38 @@ package diff;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
 
 public class ColoredJTextPane extends JTextPane{
 	private CompareModel compModel;
 	private Rectangle CaretRect, diffRect;
 	private int left=0;
 	private int right=0;
-
+	private int row;
+	//private int col;
+	
     public ColoredJTextPane() {
         // super.paintComponent(g);
-        setOpaque(false);         
+        this.addCaretListener(new CaretListener() {
+            public void caretUpdate(CaretEvent ce) {
+                int pos = getCaretPosition();
+                Element map = getDocument().getDefaultRootElement();
+                row = map.getElementIndex(pos);
+                //Element lineElem = map.getElement(row);
+                //int col = pos - lineElem.getStartOffset();
+      
+                System.out.println(row);
+            }
+        });
+        setOpaque(false);
     }
  /**
   * 색칠을 담당합니다
@@ -79,5 +97,9 @@ public class ColoredJTextPane extends JTextPane{
     		left=0;
     		right=1;
     	}
+    }
+    
+    public int getRowPos(){
+    	return row;
     }
 }

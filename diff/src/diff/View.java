@@ -116,7 +116,7 @@ public class View extends JFrame implements ActionListener{
     		
     		textarea.setEditable(false);
     		scrollpane = new JScrollPane(textarea);
-    		scrollpane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    		//scrollpane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     		
     		toolbar.add(loadBt);
     		toolbar.add(editBt);
