@@ -191,6 +191,8 @@ public class View extends JFrame implements ActionListener{
 		            copy2rightBt.setEnabled(true);
 		            copy2leftBt.setEnabled(true);
 		    	}
+	    		fileModel=controller.edit(true, fileModel, leftPanel.textarea);
+	    		fileModel=controller.edit(false, fileModel, rightPanel.textarea);
 		    }
 		    if(Button.equals(leftPanel.editBt)){
 		    	if(isEditable==false)
