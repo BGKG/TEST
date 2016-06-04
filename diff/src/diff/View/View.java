@@ -70,8 +70,23 @@ public class View extends JFrame implements ActionListener {
 			leftPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getLeft()));
 			rightPanel.textarea.setCompare(compareModel.getRight());
 			rightPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getRight()));
+			fileModel=compareModel.getFileModel();
+			if(fileModel.getLeft().size()>=fileModel.getRight().size())
+				leftPanel.sb.setModel(rightPanel.sb.getModel());
+			else
+				rightPanel.sb.setModel(leftPanel.sb.getModel());
 			super.repaint();
 		}
+		if (Button.equals(copy2rightBt)){
+			fileModel=controller.merge(false, fileModel, compareModel, leftPanel.textarea.getRowPos());
+			rightPanel.textarea.setText(StringUtil.mergeString(fileModel.getRight()));
+			super.repaint();
+		}
+		if (Button.equals(copy2leftBt)){
+			fileModel=controller.merge(true, fileModel, compareModel, rightPanel.textarea.getRowPos());
+			leftPanel.textarea.setText(StringUtil.mergeString(fileModel.getLeft()));
+			super.repaint();
+		}		
 	}
 
 	public void setController(Controller ct) {
@@ -90,6 +105,7 @@ public class View extends JFrame implements ActionListener {
 
 		private JToolBar toolbar;
 		private JScrollPane scrollpane;
+		private JScrollBar sb;
 		private ColoredJTextPane textarea;
 		private StyledDocument doc;
 		private Style def, s;
@@ -126,7 +142,7 @@ public class View extends JFrame implements ActionListener {
 
 			textarea.setEditable(false);
 			scrollpane = new JScrollPane(textarea);
-			// scrollpane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollpane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 			toolbar.add(loadBt);
 			toolbar.add(editBt);
@@ -135,7 +151,7 @@ public class View extends JFrame implements ActionListener {
 
 			scrollpane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 			scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+			sb=scrollpane.getVerticalScrollBar();
 			this.setLayout(new BorderLayout());
 			this.add(toolbar, BorderLayout.NORTH);
 			this.add(scrollpane, BorderLayout.CENTER);

@@ -62,6 +62,14 @@ public class CompareService {
 		
 		RecursiveCompareLogic(n-1, m-1, tempCompare);
 		for(n=0;n<leftCompare.size();n++){
+			if(leftCompare.size()<=n){
+				leftCompare.add(n,-1);
+				leftString.add(n,"\n");
+			}
+			if(rightCompare.size()<=n){
+				rightCompare.add(n,-1);
+				rightString.add(n,"\n");
+			}
 			if(leftCompare.get(n) == -1 || rightCompare.get(n) == -1)
 				continue;
 			if(leftCompare.get(n)==0 && rightCompare.get(n)==0){
