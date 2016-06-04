@@ -3,19 +3,26 @@ package diff;
 import java.util.ArrayList;
 
 public class CompareModel {
-	private ArrayList<Boolean> left = new ArrayList<Boolean>();
-	private ArrayList<Boolean> right = new ArrayList<Boolean>();
+	private ArrayList<Integer> left = new ArrayList<Integer>();
+	private ArrayList<Integer> right = new ArrayList<Integer>();
+	private FileModel fileModel;
 	
-	public ArrayList<Boolean> getLeft() {
+	public FileModel getFileModel() {
+		return fileModel;
+	}
+	public void setFileModel(FileModel fileModel) {
+		this.fileModel = fileModel;
+	}
+	public ArrayList<Integer> getLeft() {
 		return left;
 	}
-	public void setLeft(ArrayList<Boolean> left) {
+	public void setLeft(ArrayList<Integer> left) {
 		this.left = left;
 	}
-	public ArrayList<Boolean> getRight() {
+	public ArrayList<Integer> getRight() {
 		return right;
 	}
-	public void setRight(ArrayList<Boolean> right) {
+	public void setRight(ArrayList<Integer> right) {
 		this.right = right;
 	}
 }

@@ -15,8 +15,8 @@ public class MergeService {
 		// initialize
 		ArrayList<String> targetstring;
 		ArrayList<String> basestring;
-		ArrayList<Boolean> targetcompare;
-		ArrayList<Boolean> basecompare;
+		ArrayList<Integer> targetcompare;
+		ArrayList<Integer> basecompare;
 		
 		if(lr){
 			targetstring = fileModel.getLeft();
@@ -37,23 +37,23 @@ public class MergeService {
 		int i=0; // loopcounter
 		//set baseTrue
 		for(;i<index;i++){
-			if(basecompare.get(i))
+			if(basecompare.get(i)==1)
 				baseTrue++;
 		}
 		//set basefront
-		for(i=index;basecompare.get(i);i--)
+		for(i=index;basecompare.get(i)==1;i--)
 			basefront=i;
 		//set baseback
-		for(i=index;basecompare.get(i);i++)
+		for(i=index;basecompare.get(i)==1;i++)
 			baseback=i;
 		//set targetTrue
 		for(i=0;targetTrue<baseTrue;i++){
-			if(targetcompare.get(i))
+			if(targetcompare.get(i)==1)
 				targetTrue++;
 		}
 
 		// merge with variable
-		for(;targetcompare.get(i);i++)
+		for(;targetcompare.get(i)==1;i++)
 			targetstring.remove(i);
 		for(;basefront<=baseback;basefront++)
 			targetstring.add(i, basestring.get(basefront));

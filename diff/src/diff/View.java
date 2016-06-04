@@ -64,8 +64,11 @@ public class View extends JFrame implements ActionListener{
 
 		JButton Button = (JButton)e.getSource();
 	    if(Button.equals(compareBt)){
-    		leftPanel.textarea.setCompareModel(true,controller.compare(fileModel));
-	    	rightPanel.textarea.setCompareModel(false,controller.compare(fileModel));
+	    	CompareModel compareModel = controller.compare(fileModel);
+    		leftPanel.textarea.setCompare(compareModel.getLeft());
+    		leftPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getLeft()));
+	    	rightPanel.textarea.setCompare(compareModel.getRight());
+	    	rightPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getRight()));
 	    	super.repaint();
 	    }
     }
@@ -160,25 +163,11 @@ public class View extends JFrame implements ActionListener{
 		    	textarea.setText(null);
 		    	if(isLeft){
 		    		isLoaded=true;
-			    	for(int i=0; i<fileModel.getLeft().size(); i++){	            			  
-			    		try {
-			    			doc.insertString(doc.getLength(), fileModel.getLeft().get(i), doc.getStyle("black"));
-			    		} catch (BadLocationException ex) {
-			    			// TODO Auto-generated catch block
-			    			ex.printStackTrace();
-			    		}
-			    	}
+		    		textarea.setText(StringUtil.mergeString(fileModel.getLeft()));
 		    	}
 		    	else{
 		    		isLoaded=true;
-			    	for(int i=0; i<fileModel.getRight().size(); i++){	            			  
-			    		try {
-			    			doc.insertString(doc.getLength(), fileModel.getRight().get(i), doc.getStyle("black"));
-			    		} catch (BadLocationException ex) {
-			    			// TODO Auto-generated catch block
-			    			ex.printStackTrace();
-			    		}
-			    	}		    		
+		    		textarea.setText(StringUtil.mergeString(fileModel.getRight()));
 		    	}
 		    	if(leftPanel.isLoaded==true&&rightPanel.isLoaded==true){
 		    		compareBt.setEnabled(true);

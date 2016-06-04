@@ -2,23 +2,23 @@ package diff;
 import java.util.ArrayList;
 
 public class CompareService {
-	private ArrayList<Boolean> leftCompare;
-	private ArrayList<Boolean> rightCompare;
+	private ArrayList<Integer> leftCompare;
+	private ArrayList<Integer> rightCompare;
 	
 	/**
 	 * compare 메인로직
 	 * @param filemodel file input class 에서 만들어준 filemodel 을 그대로 가져옴
 	 * @return comparemodel 을 만들어 리턴해줌.
 	 */
-	CompareModel compare(FileModel filemodel){
+	public CompareModel compare(FileModel filemodel){
 		
 		// initialize 
 		CompareModel comparemodel = new CompareModel();
 		ArrayList<String> leftString = filemodel.getLeft();
 		ArrayList<String> rightString = filemodel.getRight();
 		int[][] tempCompare = new int[rightString.size()+1][leftString.size()+1];
-		leftCompare = new ArrayList<Boolean>();
-		rightCompare = new ArrayList<Boolean>();
+		leftCompare = new ArrayList<Integer>();
+		rightCompare = new ArrayList<Integer>();
 		int n=0, m=0; // for loop counter, left=n, right=m
 		
 		
@@ -26,13 +26,13 @@ public class CompareService {
 		for(n=0 ; n<leftString.size()+1 ; n++){
 		tempCompare[0][n] = 0;
 			if(n<leftString.size())
-				leftCompare.add(false);
+				leftCompare.add(0);
 		}
 		
 		for(m=0 ; m<rightString.size()+1 ; m++){
 		tempCompare[m][0] = 0;
 			if(m<rightString.size())
-				rightCompare.add(false);
+				rightCompare.add(0);
 		}
 		
 		
@@ -58,10 +58,21 @@ public class CompareService {
 		
 		
 		RecursiveCompareLogic(n-1, m-1, tempCompare);
-		
+		for(n=0;n<leftCompare.size();n++){
+			if(leftCompare.get(n)==0 && rightCompare.get(n)==1){
+				rightCompare.add(n,-1);
+				rightString.add(n,"\n");
+			}
+			if(leftCompare.get(n)==1 && rightCompare.get(n)==0){
+				leftCompare.add(n,-1);
+				leftString.add(n,"\n");
+			}
+		}
+		filemodel.setLeft(leftString);
+		filemodel.setRight(rightString);
 		comparemodel.setLeft(leftCompare);
 		comparemodel.setRight(rightCompare);
-		
+		comparemodel.setFileModel(filemodel);
 		return comparemodel;
 	}
 	
@@ -77,19 +88,19 @@ public class CompareService {
 			return;
 		
 		if(tempCompare[m][n]==tempCompare[m][n-1]){
-			leftCompare.set(n-1, false);
-			rightCompare.set(m-1, false);
+			leftCompare.set(n-1, 0);
+			rightCompare.set(m-1, 0);
 			RecursiveCompareLogic(n-1,m,tempCompare);
 		}
 		else if(tempCompare[m][n]==tempCompare[m-1][n]){
-			leftCompare.set(n-1, false);
-			rightCompare.set(m-1, false);
+			leftCompare.set(n-1, 0);
+			rightCompare.set(m-1, 0);
 			RecursiveCompareLogic(n,m-1,tempCompare);
 		}
 		else if(tempCompare[m][n]!=tempCompare[m][n-1] 
 				&& tempCompare[m][n]!=tempCompare[m-1][n]){
-			leftCompare.set(n-1, true);
-			rightCompare.set(m-1, true);
+			leftCompare.set(n-1, 1);
+			rightCompare.set(m-1, 1);
 			RecursiveCompareLogic(n-1,m-1,tempCompare);
 		}
 	}
