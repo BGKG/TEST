@@ -19,13 +19,13 @@ public class FileService {
 	        	fileModel.resetLeftList();
 	        	
 		        for (; (s = in.readLine()) != null;) {
-		        	fileModel.getLeft().add(s+"\n");
+		        	fileModel.getLeft().add(s+"\r\n");
 		        }
 	        }
 	        else{
 	        	fileModel.resetRightList();
 		        for (; (s = in.readLine()) != null;) {
-		        	fileModel.getRight().add(s+"\n");
+		        	fileModel.getRight().add(s+"\r\n");
 		        }
 
 	        }

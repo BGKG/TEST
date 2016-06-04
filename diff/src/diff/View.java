@@ -251,8 +251,6 @@ public class View extends JFrame implements ActionListener{
 		    if(Button.equals(saveBt)){
 		    	//Controller.save(true, file, fm); 
 		    }
-
 		}
-    }	
-    
+    }	   
 }
