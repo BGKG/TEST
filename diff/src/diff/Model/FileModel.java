@@ -34,15 +34,4 @@ public class FileModel {
 	public void resetRightList() {
 		right.clear();
 	}
-
-	/*
-	 * public File getLeftFile(){return leftFile;} public File
-	 * getRightFile(){return rightFile;} public void setLeftFile(File
-	 * f){leftFile = f;} public void setRightFile(File f){rightFile = f;}
-	 */
-
-	// public void appendArray(String s){
-	// testleft.add(s);
-	// }
-	
 }

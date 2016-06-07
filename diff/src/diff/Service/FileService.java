@@ -1,15 +1,19 @@
 package diff.Service;
 
 import java.io.*;
-import java.nio.file.Files;
-
 import javax.swing.JFileChooser;
-
 import diff.Model.FileModel;
 
 public class FileService {
 	public FileService(){
 	}
+	/**
+	 * 파일을 로드합니다
+	 * 
+	 * @param lr 왼쪽이 true, 오른쪽 false
+	 * @param file 파일정보.
+	 * @param model 좌우 내용물 정보.
+	 */	
 	public FileModel load(Boolean lr,File file,FileModel fileModel){
 	     
 	    try {
@@ -39,18 +43,17 @@ public class FileService {
 	    
 		return fileModel;
 	}
-	
+	/**
+	 * 지정한 위치의 파일에 저장합니다
+	 * 
+	 * @param lr 왼쪽이 true,오른쪽 false
+	 * @param file 파일정보.
+	 * @param model 좌우 내용물 정보.
+	 */	
 	public void save(Boolean lr,File file,FileModel fileModel){
-		JFileChooser jf = new JFileChooser();
-	    int returnval=jf.showSaveDialog(null);
-	    File f = null;
 	    FileOutputStream fos=null;	    
-	    if(returnval == JFileChooser.APPROVE_OPTION)
-	    	f=jf.getSelectedFile();
-	    
 		try{
-			//BufferedWriter out = new BufferedWriter(new FileWriter(f));
-			fos = new FileOutputStream(f);
+			fos = new FileOutputStream(file);
 			
 			String s = null;
 			
@@ -73,18 +76,8 @@ public class FileService {
 				fos.write(buf);			
 			}
 
-		} catch(IOException e){
-			
+		} catch(IOException ex){
+			ex.printStackTrace();
 		}
-		/**
-		 * TODO:덮어쓰기, 다른 이름으로 저장, 그냥 저장
-		 */
 	}
-	/**
-	 * 지정한 위치의 파일에 저장합니다
-	 * 
-	 * @param lr 왼쪽이 false,오른쪽 true
-	 * @param file 파일정보.
-	 * @param model 좌우 내용물 정보.
-	 */
 }

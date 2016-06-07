@@ -60,7 +60,9 @@ public class View extends JFrame implements ActionListener {
 		sp.setLeftComponent(leftPanel);
 		sp.setRightComponent(rightPanel);
 	}
-
+	/**
+	 * View 메인 프레임의 액션을 정의합니다. Compare, CopyToRight, CopyToLeft.
+	 */
 	public void actionPerformed(ActionEvent e) {
 
 		JButton Button = (JButton) e.getSource();
@@ -92,7 +94,9 @@ public class View extends JFrame implements ActionListener {
 	public void setController(Controller ct) {
 		controller = ct;
 	}
-
+	/**
+	 * 좌우 각 패널을 하나의 클래스로 정의. TextArea, 툴바, 버튼, 스크롤바를 포함한 JPanel입니다.
+	 */	
 	public class TextAreaWithToolbarOnJPanel extends JPanel implements ActionListener {
 
 		public TextAreaWithToolbarOnJPanel getLeftTextPanel() {
@@ -157,11 +161,30 @@ public class View extends JFrame implements ActionListener {
 			this.add(scrollpane, BorderLayout.CENTER);
 
 		}
-
-		public void switchEdit(boolean b) {
+		private void switchEdit(boolean b) {
 			isEditable = b;
 		}
-
+		private void DisableBts(boolean b,boolean lr) {
+			textarea.setEditable(b);
+			loadBt.setEnabled(!b);
+			saveBt.setEnabled(!b);
+			compareBt.setEnabled(!b);
+			copy2rightBt.setEnabled(!b);
+			copy2leftBt.setEnabled(!b);
+			if(lr){
+			rightPanel.loadBt.setEnabled(!b);
+			rightPanel.editBt.setEnabled(!b);
+			rightPanel.saveBt.setEnabled(!b);
+			}
+			else{
+				leftPanel.loadBt.setEnabled(!b);
+				leftPanel.editBt.setEnabled(!b);
+				leftPanel.saveBt.setEnabled(!b);
+			}
+		}
+		/**
+		 * TextAreaWithToolbarOnJPanel 즉 좌우 패널의 버튼 액션을 정의합니다. load, save, edit.
+		 */		
 		public void actionPerformed(ActionEvent e) {
 			JButton Button = (JButton) e.getSource();
 			File file = null;
@@ -171,7 +194,8 @@ public class View extends JFrame implements ActionListener {
 
 				if (returnval == JFileChooser.APPROVE_OPTION)
 					file = filechooser.getSelectedFile();
-
+				else if(returnval != JFileChooser.APPROVE_OPTION)
+			    	return;
 				fileModel = controller.load(isLeft, file, fileModel);
 				textarea.setText(null);
 				if (isLeft) {
@@ -210,29 +234,16 @@ public class View extends JFrame implements ActionListener {
 				}
 			}
 			if (Button.equals(leftPanel.saveBt)) {
+				int returnval = filechooser.showSaveDialog(null);
+
+				if (returnval == JFileChooser.APPROVE_OPTION)
+					file = filechooser.getSelectedFile();
+				else if(returnval != JFileChooser.APPROVE_OPTION)
+			    	return;
 				controller.save(true, file, fileModel);
 			}
 			if (Button.equals(rightPanel.saveBt)) {
 				controller.save(false, file, fileModel);
-			}
-		}
-
-		private void DisableBts(boolean b,boolean lr) {
-			textarea.setEditable(b);
-			loadBt.setEnabled(!b);
-			saveBt.setEnabled(!b);
-			compareBt.setEnabled(!b);
-			copy2rightBt.setEnabled(!b);
-			copy2leftBt.setEnabled(!b);
-			if(lr){
-			rightPanel.loadBt.setEnabled(!b);
-			rightPanel.editBt.setEnabled(!b);
-			rightPanel.saveBt.setEnabled(!b);
-			}
-			else{
-				leftPanel.loadBt.setEnabled(!b);
-				leftPanel.editBt.setEnabled(!b);
-				leftPanel.saveBt.setEnabled(!b);
 			}
 		}
 	}
