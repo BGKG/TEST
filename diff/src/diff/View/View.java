@@ -11,6 +11,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import Util.ModelUtil;
 import Util.StringUtil;
 import diff.Controller;
 import diff.Model.CompareModel;
@@ -67,12 +68,12 @@ public class View extends JFrame implements ActionListener {
 
 		JButton Button = (JButton) e.getSource();
 		if (Button.equals(compareBt)) {
+			if(compareModel!=null&&compareModel.getFileModel().equals(fileModel))fileModel=ModelUtil.getOriginal(compareModel);
 			compareModel = controller.compare(fileModel);
 			leftPanel.textarea.setCompare(compareModel.getLeft());
 			leftPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getLeft()));
 			rightPanel.textarea.setCompare(compareModel.getRight());
 			rightPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getRight()));
-			fileModel=compareModel.getFileModel();
 			if(fileModel.getLeft().size()>=fileModel.getRight().size())
 				leftPanel.sb.setModel(rightPanel.sb.getModel());
 			else
