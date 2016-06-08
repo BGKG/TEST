@@ -2,22 +2,22 @@ package diff.View;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-//import java.awt.Rectangle;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import javax.swing.JTextPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.plaf.ComponentUI;
-//import javax.swing.text.BadLocationException;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
-//import javax.swing.text.ParagraphView;
+
 /**
  * 각 라인을 Highlight할 수 있는 JTextPane입니다.
  */
 public class ColoredJTextPane extends JTextPane{
 	private ArrayList<Integer> compare;
-	//private Rectangle CaretRect;
+	private Rectangle CaretRect;
 	private int row;
 
     public ColoredJTextPane() {
@@ -53,8 +53,6 @@ public class ColoredJTextPane extends JTextPane{
 	        	}
 	        }
         }
-		/*
-        	선택된 라인 Highlighter. 있으면 거슬리기만 해서 주석처리함.
           try {
         	CaretRect = modelToView(getCaretPosition());
             if (CaretRect != null) {
@@ -64,7 +62,7 @@ public class ColoredJTextPane extends JTextPane{
         } catch (BadLocationException e) {
         	e.printStackTrace();
         }
-        */
+        
         super.paintComponent(g);
     }
     
