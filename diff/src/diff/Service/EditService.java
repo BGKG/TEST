@@ -14,24 +14,24 @@ public class EditService {
 	 */
 	public FileModel edit(Boolean lr,FileModel fileModel, ColoredJTextPane textarea){	     
 	        String[] s;
-
+	        FileModel ret = new FileModel();
 	        if(lr==true){
-	        	fileModel.resetLeftList();
 	        	s=textarea.getText().split("\n");
 
 		        for (int i=0; i<s.length; i++) {
-		        	fileModel.getLeft().add(s[i]+"\n");
+		        	ret.getLeft().add(s[i]+"\n");
 		        }
+		        ret.setRight(fileModel.getRight());
 	        }
 	        else{
-	        	fileModel.resetRightList();
 	        	s=textarea.getText().split("\n");
 
 		        for (int i=0; i<s.length; i++) {
-		        	fileModel.getRight().add(s[i]+"\n");
+		        	ret.getRight().add(s[i]+"\n");
 		        }
+		        ret.setLeft(fileModel.getLeft());
 	        }
 	    
-		return fileModel;
+		return ret;
 	}
 }
