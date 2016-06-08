@@ -39,36 +39,31 @@ public class MergeService {
 		
 		int i, baseFrontCheck;
 		
-		for(baseFrontCheck=index;;baseFrontCheck--){
+		for(baseFrontCheck=index;baseFrontCheck>=0;baseFrontCheck--){
 			if(basecompare.get(baseFrontCheck) == 1)
 				break;
 		}
 		
 	
-		if(basecompare.get(index) == 0){
-			for(i=baseFrontCheck+1;i<basecompare.size();i++){
-				if(basecompare.get(i)==1)
+		
+		for(i=baseFrontCheck+1;i<basecompare.size();i++){
+			if(basecompare.get(i)==1)
 					break;
-			
+			if(basecompare.get(i) == 0){
 				targetstring.set(i, basestring.get(i));
 				targetcompare.set(i, 1);
 				basecompare.set(i, 1);
 			}
-		}
-		
-		else if(basecompare.get(index) == -1){
-			for(i=baseFrontCheck+1;i<basecompare.size();){
-				if(basecompare.get(i)==1)
-					break;
-			
+			else if(basecompare.get(i) == -1){
 				targetstring.remove(i);
 				basestring.remove(i);
 				targetcompare.remove(i);
 				basecompare.remove(i);
+				i--;
 			}
 		}
-			
-
+		
+		
 		//set filemodel
 		if(lr){
 			fileModel.setLeft(targetstring);

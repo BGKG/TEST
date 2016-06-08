@@ -70,24 +70,27 @@ public class View extends JFrame implements ActionListener {
 		if (Button.equals(compareBt)) {
 			if(compareModel!=null&&compareModel.getFileModel().equals(fileModel))fileModel=ModelUtil.getOriginal(compareModel);
 			compareModel = controller.compare(fileModel);
+			fileModel = compareModel.getFileModel();
 			leftPanel.textarea.setCompare(compareModel.getLeft());
 			leftPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getLeft()));
 			rightPanel.textarea.setCompare(compareModel.getRight());
 			rightPanel.textarea.setText(StringUtil.mergeString(compareModel.getFileModel().getRight()));
-			if(fileModel.getLeft().size()>=fileModel.getRight().size())
+			/*if(fileModel.getLeft().size()>=fileModel.getRight().size())
 				leftPanel.sb.setModel(rightPanel.sb.getModel());
 			else
-				rightPanel.sb.setModel(leftPanel.sb.getModel());
+				rightPanel.sb.setModel(leftPanel.sb.getModel());*/
 			super.repaint();
 		}
 		if (Button.equals(copy2rightBt)){
 			fileModel=controller.merge(false, fileModel, compareModel, leftPanel.textarea.getRowPos());
+			leftPanel.textarea.setText(StringUtil.mergeString(fileModel.getLeft()));
 			rightPanel.textarea.setText(StringUtil.mergeString(fileModel.getRight()));
 			super.repaint();
 		}
 		if (Button.equals(copy2leftBt)){
 			fileModel=controller.merge(true, fileModel, compareModel, rightPanel.textarea.getRowPos());
 			leftPanel.textarea.setText(StringUtil.mergeString(fileModel.getLeft()));
+			rightPanel.textarea.setText(StringUtil.mergeString(fileModel.getRight()));
 			super.repaint();
 		}		
 	}
