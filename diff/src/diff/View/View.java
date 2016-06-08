@@ -30,6 +30,7 @@ public class View extends JFrame implements ActionListener {
 	private TextAreaWithToolbarOnJPanel leftPanel;
 	private TextAreaWithToolbarOnJPanel rightPanel;
 	private CompareModel compareModel;
+	private int flagforCopyBt=0;
 
 	public View() {
 		this.setTitle("Diff");
@@ -79,6 +80,9 @@ public class View extends JFrame implements ActionListener {
 				leftPanel.sb.setModel(rightPanel.sb.getModel());
 			else
 				rightPanel.sb.setModel(leftPanel.sb.getModel());*/
+			flagforCopyBt=1;
+			copy2leftBt.setEnabled(true);
+			copy2rightBt.setEnabled(true);
 			super.repaint();
 		}
 		if (Button.equals(copy2rightBt)){
@@ -172,9 +176,11 @@ public class View extends JFrame implements ActionListener {
 			textarea.setEditable(b);
 			loadBt.setEnabled(!b);
 			saveBt.setEnabled(!b);
-			compareBt.setEnabled(!b);
-			copy2rightBt.setEnabled(!b);
-			copy2leftBt.setEnabled(!b);
+				compareBt.setEnabled(!b);
+			if(flagforCopyBt==1){
+				copy2rightBt.setEnabled(!b);
+				copy2leftBt.setEnabled(!b);
+			}
 			if(lr){
 			rightPanel.loadBt.setEnabled(!b);
 			rightPanel.editBt.setEnabled(!b);
@@ -209,11 +215,8 @@ public class View extends JFrame implements ActionListener {
 					isLoaded = true;
 					textarea.setText(StringUtil.mergeString(fileModel.getRight()));
 				}
-				if (leftPanel.isLoaded == true && rightPanel.isLoaded == true) {
+				if (leftPanel.isLoaded == true && rightPanel.isLoaded == true)
 					compareBt.setEnabled(true);
-					copy2rightBt.setEnabled(true);
-					copy2leftBt.setEnabled(true);
-				}
 				fileModel = controller.edit(true, fileModel, leftPanel.textarea);
 				fileModel = controller.edit(false, fileModel, rightPanel.textarea);
 			}
